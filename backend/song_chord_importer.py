@@ -164,6 +164,161 @@ def extract_chords_from_content(content: str):
     return result
 
 
+def extract_chords_with_beats(content: str):
+    """
+    Extract Ultimate Guitar chord tags and estimate
+    the number of beats for each chord based on
+    horizontal spacing between chord tags.
+    """
+
+    lines = content.splitlines()
+
+    result = []
+
+    for line in lines:
+
+        if not line.strip():
+            continue
+
+        matches = list(
+            re.finditer(
+                r"\[ch\](.*?)\[/ch\]",
+                line,
+                flags=re.IGNORECASE | re.DOTALL
+            )
+        )
+
+        if not matches:
+            continue
+
+        chord_data = []
+
+        # ---------------------------------------------
+        # Extract chord names and their positions
+        # ---------------------------------------------
+
+        for match in matches:
+
+            chord = match.group(1)
+
+            chord = html_lib.unescape(chord)
+
+            chord = chord.strip()
+
+            chord = re.sub(
+                r"\s+",
+                "",
+                chord
+            )
+
+            if not chord:
+                continue
+
+            chord_data.append({
+                "name": chord,
+                "position": match.start()
+            })
+
+        if not chord_data:
+            continue
+
+        # ---------------------------------------------
+        # Calculate spacing between chords
+        # ---------------------------------------------
+
+        for index, chord in enumerate(chord_data):
+
+            if index < len(chord_data) - 1:
+
+                next_chord = chord_data[index + 1]
+
+                chord["distance"] = (
+                    next_chord["position"]
+                    - chord["position"]
+                )
+
+            else:
+
+                # Last chord on the line.
+                #
+                # Use the average spacing of the
+                # previous chords as its duration.
+
+                if len(chord_data) > 1:
+
+                    distances = [
+                        chord_data[i + 1]["position"]
+                        - chord_data[i]["position"]
+                        for i in range(
+                            len(chord_data) - 1
+                        )
+                    ]
+
+                    chord["distance"] = (
+                        sum(distances)
+                        / len(distances)
+                    )
+
+                else:
+
+                    # Only one chord on this line.
+                    chord["distance"] = 1
+
+        # ---------------------------------------------
+        # Determine the smallest spacing.
+        #
+        # The smallest spacing is treated as
+        # approximately one beat.
+        # ---------------------------------------------
+
+        distances = [
+            chord["distance"]
+            for chord in chord_data
+            if chord["distance"] > 0
+        ]
+
+        if not distances:
+            continue
+
+        base_distance = min(distances)
+
+        # Prevent division by zero.
+        base_distance = max(
+            base_distance,
+            1
+        )
+
+        # ---------------------------------------------
+        # Convert spacing to beats.
+        # ---------------------------------------------
+
+        for chord in chord_data:
+
+            ratio = (
+                chord["distance"]
+                / base_distance
+            )
+
+            beats = max(
+                1,
+                round(ratio)
+            )
+
+            # Your UI currently supports
+            # up to 16 beats.
+            beats = min(
+                16,
+                beats
+            )
+
+            result.append({
+                "name": chord["name"],
+                "beats": beats
+            })
+
+    return result
+
+
 def import_chords_from_url(url: str):
 
     html = fetch_page(url)
@@ -172,7 +327,7 @@ def import_chords_from_url(url: str):
 
     content = extract_wiki_content(html)
 
-    chords = extract_chords_from_content(
+    chords = extract_chords_with_beats(
         content
     )
 
@@ -183,14 +338,10 @@ def import_chords_from_url(url: str):
 
     return {
         "title": title,
-        "chords": [
-            {
-                "name": chord,
-                "beats": 1
-            }
-            for chord in chords
-        ]
+        "chords": chords
     }
+
+
 
 
 def main():
