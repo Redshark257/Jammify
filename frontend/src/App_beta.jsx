@@ -1429,47 +1429,92 @@ const [importedSong, setImportedSong] = useState(null);
 const [importing, setImporting] = useState(false);
 const [importError, setImportError] = useState("");
 
+
 async function importSong() {
-  if (!songUrl.trim()) return;
+    if (!songUrl.trim()) return;
 
-  setImporting(true);
-  setImportError("");
+    setImporting(true);
+    setImportError("");
 
-  try {
-    const response = await fetch(
-      `${API_URL}/import-song`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          url: songUrl,
-        }),
-      }
-    );
+    try {
+        const response = await fetch(
+            `${API_URL}/import-song`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    url: songUrl,
+                }),
+            }
+        );
 
-    const data = await response.json();
+        const data = await response.json();
 
-    if (!response.ok || data.error) {
-      throw new Error(
-        data.error || "Failed to import song"
-      );
+        if (!response.ok) {
+            throw new Error(
+                data.detail ||
+                data.error ||
+                "Failed to import song"
+            );
+        }
+
+        // Save imported data
+        setImportedSong(data);
+
+        // Convert imported chords into a Jammify track
+        const importedTrack = {
+            id: Date.now(),
+            name: data.title || "Imported Song",
+            chords: (data.chords || []).map((chord, index) => ({
+                type: "chord",
+                name: chord.name,
+                octave: 4,
+                inversion: 0,
+                beats: Number(chord.beats) || 1,
+                repeat: 1,
+                instrument: "acoustic_grand_piano",
+                wait: 0,
+                speed: 1,
+                pattern: [true],
+            })),
+            muted: false,
+            volume: 0.8,
+            loop: true,
+            color: trackColors[
+                tracksRef.current.length % trackColors.length
+            ],
+        };
+
+        // Add the imported track
+        setTracks(prev => [
+            ...prev,
+            importedTrack
+        ]);
+
+        // Initialize its playhead
+        setTrackPlayheads(prev => ({
+            ...prev,
+            [importedTrack.id]: 0
+        }));
+
+        // Select the imported track
+        setSelectedTrack(importedTrack.id);
+
+    } catch (error) {
+        console.error(error);
+
+        setImportError(
+            error.message ||
+            "Failed to import song"
+        );
+
+    } finally {
+        setImporting(false);
     }
-
-    setImportedSong(data);
-
-  } catch (error) {
-    console.error(error);
-
-    setImportError(
-      error.message || "Failed to import song"
-    );
-
-  } finally {
-    setImporting(false);
-  }
 }
+
 
 
 
