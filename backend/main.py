@@ -126,7 +126,7 @@ def play_step(chords: list[Chord]):
     }
 
 
-@app.post("/import-chords")
+@app.post("/import-song")
 def import_chords(request: ImportChordsRequest):
 
     try:
