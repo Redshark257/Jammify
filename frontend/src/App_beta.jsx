@@ -2015,7 +2015,7 @@ async function importSong() {
             octave: "4",
             inversion: "0",
             beats: "1",
-            repeat: "1",
+            repeat: "4",
             instrument: "acoustic_grand_piano",
             wait: "0",
             speed: "1",
