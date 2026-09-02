@@ -1725,13 +1725,15 @@ async function importSong() {
 
         <div
         style={{
-        display:"flex",
-        flexDirection:"column",
-        gap:20,
-        width:"90%",
-        position:"relative"
+            display: "flex",
+            flexDirection: "column",
+            gap: 20,
+            width: "90%",
+            position: "relative",
+            alignItems: "flex-start"
         }}
-        >
+    >
+
         
 
 
@@ -1739,29 +1741,26 @@ async function importSong() {
         {
         tracks.map(track=>(
 
-        <div
+       <div
         key={track.id}
-        onClick={()=>{
-            setSelectedTrack(track.id)
-            }}
-        style={{
-            display:"flex",
-            alignItems:"center",
-            gap:15,
-            padding:10,
-            width: "100%",
-            maxWidth: "100%",
-            boxSizing: "border-box",
-            overflow: "hidden",
-            borderRadius:12,
-            borderLeft:`6px solid ${track.color}`,
-            background:
-            selectedTrack === track.id
-            ? `${track.color}22`
-            : "transparent"
+        onClick={() => {
+            setSelectedTrack(track.id);
         }}
-
-        >
+        style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 15,
+            padding: 10,
+            borderRadius: 12,
+            borderLeft: `6px solid ${track.color}`,
+            background:
+                selectedTrack === track.id
+                    ? `${track.color}22`
+                    : "transparent",
+            width: "max-content",
+            minWidth: "100%"
+        }}
+    >
 
 
         <div
