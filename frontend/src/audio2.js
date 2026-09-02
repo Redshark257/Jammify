@@ -123,19 +123,7 @@ const instrumentConfigs = {
 const instrumentAliases = {
 
     grand_pinao: "piano",
-
-    bass: "bass",
-
     acoustic_guitar: "acoustic_guitar",
-
-    electric_guitar: "electric_guitar",
-
-    nylon_guitar: "nylon_guitar",
-
-    church_organ: "organ",
-
-    organ: "organ",
-
 };
 
 
