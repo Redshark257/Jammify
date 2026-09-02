@@ -124,8 +124,6 @@ const instrumentAliases = {
 
     grand_pinao: "piano",
 
-    finger_bass: "bass",
-
     bass: "bass",
 
     acoustic_guitar: "acoustic_guitar",

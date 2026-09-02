@@ -67,7 +67,7 @@ import {
 const instruments = [
     "grand_pinao",
     "acoustic_guitar",
-    "finger_bass",
+    "bass",
     "electric_guitar",
     "nylon_guitar",
     "organ"
