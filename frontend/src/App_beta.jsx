@@ -2547,21 +2547,6 @@ async function importSong() {
                     </TextField>
                 </Grid>
 
-                <Grid size={12}>
-                    <TextField
-                        type="number"
-                        fullWidth
-                        label="Wait Time"
-                        value={editChord.wait}
-                        onChange={(e)=>
-                            setEditChord({
-                                ...editChord,
-                                wait: Number(e.target.value)
-                            })
-                        }
-                    />
-                </Grid>
-
             </Grid>
 
         </DialogContent>
@@ -2970,35 +2955,6 @@ async function importSong() {
                         </MenuItem>
                     ))}
                 </TextField>
-            </Grid>
-
-            <Grid size={12}>
-                <TextField
-                    type="number"
-                    fullWidth
-                    label="Wait Time (seconds)"
-                    inputProps={{
-                        min: 0,
-                        max: 0.9,
-                        step: 0.05,
-                    }}
-                    value={newChord.wait}
-                    onChange={(e) =>
-                        setNewChord({
-                            ...newChord,
-                            wait: e.target.value
-                        })
-                    }
-                    onBlur={() =>
-                        setNewChord({
-                            ...newChord,
-                            wait: Math.min(
-                                0.9,
-                                Math.max(0, Number(newChord.wait))
-                            )
-                        })
-                    }
-                />
             </Grid>
 
         </Grid>
