@@ -832,7 +832,7 @@ const itemToMidi = (item) => {
 
 };
 
-const playStep = async (chords, playbackId) => {
+const playStep = (chords, playbackId) => {
 
     if (
         !playingRef.current ||
@@ -845,45 +845,43 @@ const playStep = async (chords, playbackId) => {
         chords.map(chord => chord.uiId)
     );
 
-    await Promise.all(
-        chords.map(async chord => {
+    chords.forEach(chord => {
 
-            const midiNotes = itemToMidi(chord);
+        const midiNotes = itemToMidi(chord);
 
-            const pattern =
-                chord.pattern ||
-                createPattern(chord.beats);
+        const pattern =
+            chord.pattern ||
+            createPattern(chord.beats);
 
-            const currentBeat =
-                chord.state.beat;
+        const currentBeat =
+            chord.state.beat;
 
-            let durationBeats = 1;
+        let durationBeats = 1;
 
-            for (
-                let i = currentBeat + 1;
-                i < chord.beats;
-                i++
-            ) {
-
-                if (pattern[i] === true) {
-                    break;
-                }
-
-                durationBeats++;
+        for (
+            let i = currentBeat + 1;
+            i < chord.beats;
+            i++
+        ) {
+            if (pattern[i] === true) {
+                break;
             }
 
-            await playChord(
-                midiNotes,
-                durationBeats,
-                bpmRef.current,
-                chord.volume,
-                chord.instrument,
-                chord.trackId,
-                Number(chord.speed ?? 1)
-            );
+            durationBeats++;
+        }
 
-        })
-    );
+        playChord(
+            midiNotes,
+            durationBeats,
+            bpmRef.current,
+            chord.volume,
+            chord.instrument,
+            chord.trackId,
+            Number(chord.speed ?? 1)
+        );
+
+    });
+
 
     /*
      * Playback may have been stopped while
@@ -1128,7 +1126,7 @@ const playAllTracks = async () => {
 
             if (shouldPlay) {
 
-                await playStep(chordsToPlay, playbackId);
+                playStep(chordsToPlay, playbackId);
 
             }
 
