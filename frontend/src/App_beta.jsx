@@ -1126,7 +1126,7 @@ const playAllTracks = async () => {
 
             if (shouldPlay) {
 
-                playStep(chordsToPlay, playbackId);
+                await playStep(chordsToPlay, playbackId);
 
             }
 
