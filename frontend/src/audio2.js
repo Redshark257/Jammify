@@ -122,7 +122,7 @@ const instrumentConfigs = {
 
 const instrumentAliases = {
 
-    grand_pinao: "piano",
+    grand_piano: "piano",
     acoustic_guitar: "acoustic_guitar",
 };
 

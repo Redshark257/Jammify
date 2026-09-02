@@ -65,7 +65,7 @@ import {
 
 
 const instruments = [
-    "grand_pinao",
+    "grand_piano",
     "acoustic_guitar"
 ];
 
@@ -333,7 +333,7 @@ function App() {
     inversion: "0",
     beats: "1",
     repeat: "1",
-    instrument: "acoustic_grand_piano",
+    instrument: "grand_piano",
     wait: "0",
     speed: "1",
     pattern: [true]
@@ -388,7 +388,7 @@ const handleDragEnd = (trackId, event) => {
   inversion: "0",
   beats: "1",
   repeat: "1",
-  instrument: "acoustic_grand_piano",
+  instrument: "grand_piano",
   wait: "0",
   speed: "1",
   pattern: [true]
@@ -631,7 +631,7 @@ const addChordToTrack = () => {
         inversion: "0",
         beats: "1",
         repeat: "1",
-        instrument: "acoustic_grand_piano",
+        instrument: "grand_piano",
         wait: "0",
         speed: "1",
         pattern: [true]
@@ -764,7 +764,7 @@ const editChordData = () => {
         inversion: "0",
         beats: "1",
         repeat: "1",
-        instrument: "acoustic_grand_piano",
+        instrument: "grand_piano",
         wait: "0",
         speed: "1",
         pattern: [true]
@@ -1475,7 +1475,7 @@ async function importSong() {
                 inversion: 0,
                 beats: Number(chord.beats) || 1,
                 repeat: 4,
-                instrument: "acoustic_grand_piano",
+                instrument: "grand_piano",
                 wait: 0,
                 speed: 1,
                 pattern: [true],
@@ -2049,7 +2049,7 @@ async function importSong() {
             inversion: "0",
             beats: "1",
             repeat: "1",
-            instrument: "acoustic_grand_piano",
+            instrument: "grand_piano",
             wait: "0",
             speed: "1",
             pattern: [true]
@@ -2974,7 +2974,7 @@ async function importSong() {
                     inversion: "0",
                     beats:"1",
                     repeat: "1",
-                    instrument:"acoustic_grand_piano",
+                    instrument:"grand_piano",
                     wait:"0",
                     speed: "1",
                     pattern: [true]
