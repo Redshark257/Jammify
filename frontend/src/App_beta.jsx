@@ -1317,19 +1317,6 @@ const startPlayback = async () => {
      */
     await unlockAudio();
 
-    await Promise.all(
-        tracksRef.current.map(track =>
-            Promise.all(
-                track.chords.map(chord =>
-                    prepareTrackInstrument(
-                        track.id,
-                        chord.instrument
-                    )
-                )
-            )
-        )
-    );
-
 
 
     /*
@@ -2525,13 +2512,30 @@ async function importSong() {
                         fullWidth
                         label="Instrument"
                         value={editChord.instrument}
-                        onChange={(e)=>
-                            setEditChord({
-                                ...editChord,
-                                instrument: e.target.value
-                            })
-                        }
+                        onChange={async (e) => {
+
+                            const instrument = e.target.value;
+
+                            setEditChord(prev => ({
+                                ...prev,
+                                instrument
+                            }));
+
+                            try {
+                                await prepareTrackInstrument(
+                                    selectedChord?.trackId,
+                                    instrument
+                                );
+                            } catch (error) {
+                                console.error(
+                                    "Failed to prepare instrument:",
+                                    error
+                                );
+                            }
+
+                        }}
                     >
+
                         {instruments.map(inst => (
                             <MenuItem
                                 key={inst.value}
@@ -2933,13 +2937,30 @@ async function importSong() {
                     fullWidth
                     label="Instrument"
                     value={newChord.instrument}
-                    onChange={(e)=>
-                        setNewChord({
-                            ...newChord,
-                            instrument:e.target.value
-                        })
-                    }
+                    onChange={async (e) => {
+
+                        const instrument = e.target.value;
+
+                        setNewChord(prev => ({
+                            ...prev,
+                            instrument
+                        }));
+
+                        try {
+                            await prepareTrackInstrument(
+                                editingTrack,
+                                instrument
+                            );
+                        } catch (error) {
+                            console.error(
+                                "Failed to prepare instrument:",
+                                error
+                            );
+                        }
+
+                    }}
                 >
+
                     {instruments.map(inst=>(
                         <MenuItem
                             key={inst.value}

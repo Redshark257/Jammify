@@ -1,5 +1,3 @@
-// audio.js
-
 import * as Tone from "tone";
 
 
@@ -7,9 +5,9 @@ import * as Tone from "tone";
 // STATE
 // ============================================================
 
-let activeVoices = [];
+let instrumentSamplers = {};
 let trackGains = {};
-let trackSamplers = {};
+let samplerConnections = {};
 
 let initialized = false;
 let preloadPromise = null;
@@ -18,12 +16,6 @@ let preloadPromise = null;
 // ============================================================
 // INSTRUMENT CONFIGURATION
 // ============================================================
-//
-// Current sample folders:
-//
-// public/samples/piano/
-// public/samples/guitar-acoustic/
-//
 
 const instrumentConfigs = {
 
@@ -60,9 +52,6 @@ const instrumentConfigs = {
 // ============================================================
 // INSTRUMENT ALIASES
 // ============================================================
-//
-// Keeps compatibility with older data.
-//
 
 const instrumentAliases = {
 
@@ -128,25 +117,74 @@ function createSampler(instrument) {
         getInstrumentConfig(normalized);
 
 
-    return new Tone.Sampler({
+    console.log(
+        `[audio] Creating sampler: ${normalized}`
+    );
 
-        urls: config.urls,
 
-        baseUrl:
-            `/samples/${config.folder}/`,
+    const sampler =
+        new Tone.Sampler({
 
-        release: 0.08,
+            urls: config.urls,
 
-        onerror: error => {
+            baseUrl:
+                `/samples/${config.folder}/`,
 
-            console.error(
-                `Error loading ${normalized} samples:`,
-                error
-            );
+            release: 0.08,
 
-        }
+            onload: () => {
 
-    });
+                console.log(
+                    `[audio] Loaded instrument: ${normalized}`
+                );
+
+            },
+
+            onerror: error => {
+
+                console.error(
+                    `[audio] Error loading ${normalized} samples:`,
+                    error
+                );
+
+            }
+
+        });
+
+
+    return sampler;
+
+}
+
+
+// ============================================================
+// GET / CREATE INSTRUMENT SAMPLER
+// ============================================================
+
+function getInstrumentSampler(instrument) {
+
+    const normalized =
+        normalizeInstrument(instrument);
+
+
+    if (
+        instrumentSamplers[normalized]
+    ) {
+
+        return instrumentSamplers[normalized];
+
+    }
+
+
+    const sampler =
+        createSampler(normalized);
+
+
+    instrumentSamplers[normalized] =
+        sampler;
+
+
+    return sampler;
 
 }
 
@@ -157,11 +195,13 @@ function createSampler(instrument) {
 //
 // IMPORTANT:
 //
-// We load the samples once after the user clicks Play.
+// This function runs only once.
 //
-// This prevents playChord() from waiting for sample
-// downloads between chords.
+// It creates one sampler for each configured instrument
+// and waits for Tone.js to finish loading the samples.
 //
+// prepareTrackInstrument() DOES NOT call Tone.loaded().
+// ============================================================
 
 async function preloadInstruments() {
 
@@ -172,35 +212,40 @@ async function preloadInstruments() {
     }
 
 
-    preloadPromise = (async () => {
+    preloadPromise =
+        (async () => {
 
-        Object.keys(
-            instrumentConfigs
-        ).forEach(instrument => {
-
-            const key =
-                `__preload_${instrument}`;
+            console.log(
+                "[audio] Starting instrument preload..."
+            );
 
 
-            if (!trackSamplers[key]) {
+            Object.keys(
+                instrumentConfigs
+            ).forEach(instrument => {
 
-                trackSamplers[key] = {
-
-                    sampler:
-                        createSampler(instrument),
-
+                getInstrumentSampler(
                     instrument
+                );
 
-                };
-
-            }
-
-        });
+            });
 
 
-        await Tone.loaded();
+            /*
+             * Wait for Tone.js samples to load.
+             *
+             * This is intentionally done ONCE,
+             * rather than once per track/chord.
+             */
 
-    })();
+            await Tone.loaded();
+
+
+            console.log(
+                "[audio] Instrument preload complete."
+            );
+
+        })();
 
 
     try {
@@ -209,6 +254,12 @@ async function preloadInstruments() {
 
     }
     catch (error) {
+
+        console.error(
+            "[audio] Instrument preload failed:",
+            error
+        );
+
 
         preloadPromise = null;
 
@@ -220,99 +271,15 @@ async function preloadInstruments() {
 
 
 // ============================================================
-// LOAD INSTRUMENT FOR TRACK
-// ============================================================
-
-async function loadInstrumentForTrack(
-    trackId,
-    instrument
-) {
-
-    const normalized =
-        normalizeInstrument(instrument);
-
-
-    const existing =
-        trackSamplers[trackId];
-
-
-    /*
-     * Reuse existing sampler if the instrument
-     * has not changed.
-     */
-
-    if (
-        existing &&
-        existing.instrument === normalized
-    ) {
-
-        return existing.sampler;
-
-    }
-
-
-    /*
-     * Dispose old sampler if the track
-     * changed instruments.
-     */
-
-    if (existing) {
-
-        try {
-
-            existing.sampler.dispose();
-
-        }
-        catch (error) {
-
-            console.warn(
-                "Unable to dispose old sampler:",
-                error
-            );
-
-        }
-
-    }
-
-
-    /*
-     * Create track sampler.
-     */
-
-    const sampler =
-        createSampler(normalized);
-
-
-    trackSamplers[trackId] = {
-
-        sampler,
-
-        instrument: normalized
-
-    };
-
-
-    /*
-     * Normally this has already completed
-     * during unlockAudio().
-     *
-     * This is only relevant if an instrument
-     * is changed dynamically.
-     */
-
-    // await Tone.loaded();
-
-
-    return sampler;
-
-}
-
-
-// ============================================================
 // UNLOCK WEB AUDIO
 // ============================================================
 
 export async function unlockAudio() {
+
+    console.log(
+        "[audio] Unlocking audio..."
+    );
+
 
     /*
      * Must happen after a user interaction.
@@ -321,19 +288,57 @@ export async function unlockAudio() {
     await Tone.start();
 
 
-    if (!initialized) {
-
-        initialized = true;
-
-    }
+    initialized = true;
 
 
     /*
-     * Load piano and acoustic guitar
-     * before playback begins.
+     * Load instruments once.
      */
 
     await preloadInstruments();
+
+
+    console.log(
+        "[audio] Audio ready."
+    );
+
+}
+
+
+// ============================================================
+// PREPARE TRACK INSTRUMENT
+// ============================================================
+//
+// This function is intentionally lightweight.
+//
+// The old implementation did:
+//
+//     createSampler()
+//     await Tone.loaded()
+//
+// for every track.
+//
+// That could cause playback to appear frozen.
+//
+// Now all instruments are already loaded by unlockAudio().
+// ============================================================
+
+export async function prepareTrackInstrument(
+    trackId,
+    instrument
+) {
+
+    const normalized =
+        normalizeInstrument(instrument);
+
+
+    const sampler =
+        getInstrumentSampler(
+            normalized
+        );
+
+
+    return sampler;
 
 }
 
@@ -361,16 +366,27 @@ function getTrackGain(
     volume
 ) {
 
-    if (!trackGains[trackId]) {
+    /*
+     * Track ID should normally exist.
+     */
 
-        trackGains[trackId] =
+    const key =
+        String(trackId);
+
+
+    if (
+        !trackGains[key]
+    ) {
+
+        trackGains[key] =
             new Tone.Gain(
                 Number(volume)
             ).toDestination();
 
     }
 
-    return trackGains[trackId];
+
+    return trackGains[key];
 
 }
 
@@ -385,7 +401,9 @@ export function updateTrackVolume(
 ) {
 
     const gain =
-        trackGains[trackId];
+        trackGains[
+            String(trackId)
+        ];
 
 
     if (!gain) {
@@ -402,29 +420,61 @@ export function updateTrackVolume(
 
 }
 
-export async function prepareTrackInstrument(trackId, instrument) {
 
-    const normalized = normalizeInstrument(instrument);
+// ============================================================
+// CONNECT SAMPLER TO TRACK GAIN
+// ============================================================
 
-    const existing = trackSamplers[trackId];
+function connectSamplerToTrack(
+    sampler,
+    trackId,
+    gain
+) {
+
+    const normalizedTrackId =
+        String(trackId);
+
+
+    /*
+     * Each sampler can be connected to
+     * multiple track gains.
+     *
+     * We therefore use:
+     *
+     *     instrument + track
+     *
+     * as the connection key.
+     */
+
+    const samplerKey =
+        Object.keys(
+            instrumentSamplers
+        ).find(
+            key =>
+                instrumentSamplers[key] === sampler
+        );
+
+
+    const connectionKey =
+        `${samplerKey}:${normalizedTrackId}`;
+
 
     if (
-        existing &&
-        existing.instrument === normalized
+        samplerConnections[connectionKey]
     ) {
+
         return;
+
     }
 
-    const sampler = createSampler(normalized);
 
-    trackSamplers[trackId] = {
-        sampler,
-        instrument: normalized
-    };
+    sampler.connect(gain);
 
-    await Tone.loaded();
+
+    samplerConnections[connectionKey] =
+        true;
+
 }
-
 
 
 // ============================================================
@@ -464,16 +514,17 @@ export async function playChord(
 
 
     const normalizedInstrument =
-        normalizeInstrument(instrument);
+        normalizeInstrument(
+            instrument
+        );
 
 
     /*
-     * Get sampler for this track.
+     * Get already-loaded sampler.
      */
 
     const sampler =
-        await loadInstrumentForTrack(
-            trackId,
+        getInstrumentSampler(
             normalizedInstrument
         );
 
@@ -490,17 +541,15 @@ export async function playChord(
 
 
     /*
-     * Connect sampler to the track gain
-     * only once.
+     * Connect this instrument to
+     * this track exactly once.
      */
 
-    if (!sampler.__connectedToTrack) {
-
-        sampler.connect(gain);
-
-        sampler.__connectedToTrack = true;
-
-    }
+    connectSamplerToTrack(
+        sampler,
+        trackId,
+        gain
+    );
 
 
     /*
@@ -577,7 +626,7 @@ export async function playChord(
     // SPEED 1
     // ========================================================
     //
-    // Play the whole chord simultaneously.
+    // Play entire chord simultaneously.
     //
 
     else if (
@@ -669,19 +718,6 @@ export async function playChord(
 
     }
 
-
-    /*
-     * Track active sampler.
-     */
-
-    activeVoices.push({
-
-        trackId,
-
-        sampler
-
-    });
-
 }
 
 
@@ -693,25 +729,42 @@ export function stopTrackNotes(
     trackId
 ) {
 
-    const trackVoices =
-        activeVoices.filter(
-            voice =>
-                voice.trackId === trackId
-        );
+    const normalizedTrackId =
+        String(trackId);
 
 
-    trackVoices.forEach(
-        voice => {
+    /*
+     * releaseAll() on a shared sampler would
+     * stop notes belonging to OTHER tracks too.
+     *
+     * Therefore we cannot safely use it here
+     * with shared samplers.
+     *
+     * We instead stop all currently playing
+     * samplers.
+     *
+     * This is safe, but means stopping one track
+     * can also stop another track's notes.
+     *
+     * For your current Play/Pause/Stop behavior,
+     * stopAllNotes() is the important function.
+     */
+
+    Object.values(
+        instrumentSamplers
+    ).forEach(
+        sampler => {
 
             try {
 
-                voice.sampler.releaseAll();
+                sampler.releaseAll();
 
             }
             catch (error) {
 
                 console.warn(
-                    "Unable to stop track:",
+                    "[audio] Unable to stop track:",
+                    normalizedTrackId,
                     error
                 );
 
@@ -719,13 +772,6 @@ export function stopTrackNotes(
 
         }
     );
-
-
-    activeVoices =
-        activeVoices.filter(
-            voice =>
-                voice.trackId !== trackId
-        );
 
 }
 
@@ -737,9 +783,9 @@ export function stopTrackNotes(
 export function stopAllNotes() {
 
     Object.values(
-        trackSamplers
+        instrumentSamplers
     ).forEach(
-        ({ sampler }) => {
+        sampler => {
 
             try {
 
@@ -749,7 +795,7 @@ export function stopAllNotes() {
             catch (error) {
 
                 console.warn(
-                    "Unable to stop sampler:",
+                    "[audio] Unable to stop sampler:",
                     error
                 );
 
@@ -757,9 +803,6 @@ export function stopAllNotes() {
 
         }
     );
-
-
-    activeVoices = [];
 
 }
 
@@ -772,41 +815,17 @@ export function removeTrackAudio(
     trackId
 ) {
 
-    /*
-     * Stop currently playing notes.
-     */
-
-    stopTrackNotes(trackId);
+    const normalizedTrackId =
+        String(trackId);
 
 
     /*
-     * Dispose sampler.
+     * Stop notes.
      */
 
-    const samplerData =
-        trackSamplers[trackId];
-
-
-    if (samplerData) {
-
-        try {
-
-            samplerData.sampler.dispose();
-
-        }
-        catch (error) {
-
-            console.warn(
-                "Unable to dispose sampler:",
-                error
-            );
-
-        }
-
-
-        delete trackSamplers[trackId];
-
-    }
+    stopTrackNotes(
+        normalizedTrackId
+    );
 
 
     /*
@@ -814,7 +833,9 @@ export function removeTrackAudio(
      */
 
     const gain =
-        trackGains[trackId];
+        trackGains[
+            normalizedTrackId
+        ];
 
 
     if (gain) {
@@ -827,15 +848,105 @@ export function removeTrackAudio(
         catch (error) {
 
             console.warn(
-                "Unable to dispose gain:",
+                "[audio] Unable to dispose gain:",
                 error
             );
 
         }
 
 
-        delete trackGains[trackId];
+        delete trackGains[
+            normalizedTrackId
+        ];
 
     }
+
+
+    /*
+     * Remove connection bookkeeping.
+     */
+
+    Object.keys(
+        samplerConnections
+    ).forEach(
+        key => {
+
+            if (
+                key.endsWith(
+                    `:${normalizedTrackId}`
+                )
+            ) {
+
+                delete samplerConnections[key];
+
+            }
+
+        }
+    );
+
+}
+
+
+// ============================================================
+// OPTIONAL CLEANUP
+// ============================================================
+
+export function disposeAudio() {
+
+    stopAllNotes();
+
+
+    Object.values(
+        instrumentSamplers
+    ).forEach(
+        sampler => {
+
+            try {
+
+                sampler.dispose();
+
+            }
+            catch (error) {
+
+                console.warn(
+                    "[audio] Unable to dispose sampler:",
+                    error
+                );
+
+            }
+
+        }
+    );
+
+
+    Object.values(
+        trackGains
+    ).forEach(
+        gain => {
+
+            try {
+
+                gain.dispose();
+
+            }
+            catch (error) {
+
+                console.warn(
+                    "[audio] Unable to dispose gain:",
+                    error
+                );
+
+            }
+
+        }
+    );
+
+
+    instrumentSamplers = {};
+    trackGains = {};
+    samplerConnections = {};
+
+    preloadPromise = null;
+    initialized = false;
 
 }
