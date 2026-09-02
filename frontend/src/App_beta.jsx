@@ -112,8 +112,10 @@ function SortableChord({
 
         transform: CSS.Transform.toString(transform),
 
-        width:70,
-        height:70,
+        width: 70,
+        minWidth: 70,
+        height: 70,
+        flexShrink: 0,
 
         background: active
             ? activeColor
@@ -1747,6 +1749,10 @@ async function importSong() {
             alignItems:"center",
             gap:15,
             padding:10,
+            width: "100%",
+            maxWidth: "100%",
+            boxSizing: "border-box",
+            overflow: "hidden",
             borderRadius:12,
             borderLeft:`6px solid ${track.color}`,
             background:
@@ -1884,14 +1890,21 @@ async function importSong() {
 
 
 
-
         <div
             style={{
-            display:"flex",
-            gap:10,
-            position:"relative"
+                display: "flex",
+                gap: 10,
+                position: "relative",
+                flex: 1,
+                minWidth: 0,
+                overflowX: "auto",
+                overflowY: "hidden",
+                paddingBottom: 8,
+                paddingTop: 5,
+                scrollbarWidth: "thin"
             }}
-            >
+        >
+
 
             <div
                 style={{
@@ -1913,6 +1926,28 @@ async function importSong() {
             />
 
 
+        <div
+            style={{
+                display: "flex",
+                gap: 10,
+                position: "relative",
+                flex: 1,
+                minWidth: 0,
+                overflowX: "auto",
+                overflowY: "hidden",
+                paddingBottom: 8,
+                paddingTop: 5,
+                scrollbarWidth: "thin"
+            }}
+        >
+            
+            <div
+                style={{
+                    display: "flex",
+                    gap: 10,
+                    flexShrink: 0
+                }}
+            >
 
         <DndContext
 
