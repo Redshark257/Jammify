@@ -1,4 +1,4 @@
-// Audio.js
+// audio.js
 
 import * as Tone from "tone";
 
@@ -10,29 +10,24 @@ import * as Tone from "tone";
 let activeVoices = [];
 let trackGains = {};
 let trackSamplers = {};
+
 let initialized = false;
+let preloadPromise = null;
 
 
 // ============================================================
 // INSTRUMENT CONFIGURATION
 // ============================================================
 //
-// These are the folders you copied into:
+// Current sample folders:
 //
-// public/samples/
-//
-
-// The filenames below correspond to the tonejs-instruments
-// sample sets.
-//
-// Tone.Sampler will automatically pitch-shift between these
-// sampled notes, so we don't need every single note.
+// public/samples/piano/
+// public/samples/guitar-acoustic/
 //
 
 const instrumentConfigs = {
 
-
-    piano: {
+    grand_piano: {
 
         folder: "piano",
 
@@ -41,66 +36,23 @@ const instrumentConfigs = {
             C2: "C2.mp3",
             C3: "C3.mp3",
             C4: "C4.mp3",
-        },
-    },
+            C5: "C5.mp3"
+        }
 
-    bass: {
-        folder: "bass-electric",
-
-        urls: {
-            E1: "E1.mp3",
-            E2: "E2.mp3",
-            E3: "E3.mp3",
-            E4: "E4.mp3",
-        },
     },
 
 
     acoustic_guitar: {
+
         folder: "guitar-acoustic",
 
         urls: {
             C3: "C3.mp3",
             C4: "C4.mp3",
-            C5: "C5.mp3",
-        },
-    },
+            C5: "C5.mp3"
+        }
 
-
-    electric_guitar: {
-        folder: "guitar-electric",
-
-        urls: {
-            A2: "A2.mp3",
-            A3: "A3.mp3",
-            A4: "A4.mp3",
-            A5: "A5.mp3",
-        },
-    },
-
-
-    nylon_guitar: {
-        folder: "guitar-nylon",
-
-        urls: {
-            A2: "A2.mp3",
-            A3: "A3.mp3",
-            A4: "A4.mp3",
-            A5: "A5.mp3",
-        },
-    },
-
-
-    organ: {
-        folder: "organ",
-
-        urls: {
-            C2: "C2.mp3",
-            C3: "C3.mp3",
-            C4: "C4.mp3",
-            C5: "C5.mp3",
-        },
-    },
+    }
 
 };
 
@@ -109,22 +61,31 @@ const instrumentConfigs = {
 // INSTRUMENT ALIASES
 // ============================================================
 //
-// This lets your existing application continue using names
-// such as:
-//
-// acoustic_guitar
-// rock_guitar
-// finger_bass
-// church_organ
-//
-// while internally using the new sample folders.
+// Keeps compatibility with older data.
 //
 
 const instrumentAliases = {
 
-    grand_piano: "piano",
-    acoustic_guitar: "acoustic_guitar",
+    piano: "grand_piano"
+
 };
+
+
+// ============================================================
+// NORMALIZE INSTRUMENT
+// ============================================================
+
+function normalizeInstrument(instrument) {
+
+    const requested =
+        instrument || "grand_piano";
+
+    return (
+        instrumentAliases[requested] ||
+        requested
+    );
+
+}
 
 
 // ============================================================
@@ -133,22 +94,24 @@ const instrumentAliases = {
 
 function getInstrumentConfig(instrument) {
 
-    const normalizedInstrument =
-        instrumentAliases[instrument] ||
-        instrument;
+    const normalized =
+        normalizeInstrument(instrument);
 
     const config =
-        instrumentConfigs[normalizedInstrument];
+        instrumentConfigs[normalized];
 
     if (!config) {
 
-        throw new Error(
-            `Unknown instrument: ${instrument}`
+        console.warn(
+            `Unknown instrument "${instrument}". Using Grand Piano.`
         );
+
+        return instrumentConfigs.grand_piano;
 
     }
 
     return config;
+
 }
 
 
@@ -158,72 +121,129 @@ function getInstrumentConfig(instrument) {
 
 function createSampler(instrument) {
 
+    const normalized =
+        normalizeInstrument(instrument);
+
     const config =
-        getInstrumentConfig(instrument);
+        getInstrumentConfig(normalized);
 
 
-    /*
-     * public/ is the web root in Vite.
-     *
-     * Therefore:
-     *
-     * public/samples/organ/C4.mp3
-     *
-     * becomes:
-     *
-     * /samples/organ/C4.mp3
-     */
+    return new Tone.Sampler({
 
-    const sampler =
-        new Tone.Sampler({
+        urls: config.urls,
 
-            urls: config.urls,
+        baseUrl:
+            `/samples/${config.folder}/`,
 
-            baseUrl:
-                `/samples/${config.folder}/`,
+        release: 0.08,
 
-            release: 0.1,
+        onerror: error => {
+
+            console.error(
+                `Error loading ${normalized} samples:`,
+                error
+            );
+
+        }
+
+    });
+
+}
+
+
+// ============================================================
+// PRELOAD INSTRUMENTS
+// ============================================================
+//
+// IMPORTANT:
+//
+// We load the samples once after the user clicks Play.
+//
+// This prevents playChord() from waiting for sample
+// downloads between chords.
+//
+
+async function preloadInstruments() {
+
+    if (preloadPromise) {
+
+        return preloadPromise;
+
+    }
+
+
+    preloadPromise = (async () => {
+
+        Object.keys(
+            instrumentConfigs
+        ).forEach(instrument => {
+
+            const key =
+                `__preload_${instrument}`;
+
+
+            if (!trackSamplers[key]) {
+
+                trackSamplers[key] = {
+
+                    sampler:
+                        createSampler(instrument),
+
+                    instrument
+
+                };
+
+            }
 
         });
 
 
-    return sampler;
+        await Tone.loaded();
+
+    })();
+
+
+    try {
+
+        await preloadPromise;
+
+    }
+    catch (error) {
+
+        preloadPromise = null;
+
+        throw error;
+
+    }
+
 }
 
 
 // ============================================================
 // LOAD INSTRUMENT FOR TRACK
 // ============================================================
-//
-// Every track gets its own sampler.
-//
-// Example:
-//
-// Track 1 → piano/organ/etc.
-// Track 2 → guitar
-// Track 3 → guitar
-//
-// Even if Track 2 and Track 3 use the same instrument,
-// they have independent samplers.
-//
 
 async function loadInstrumentForTrack(
     trackId,
     instrument
 ) {
 
+    const normalized =
+        normalizeInstrument(instrument);
+
+
     const existing =
         trackSamplers[trackId];
 
 
     /*
-     * Reuse the sampler if the track is
-     * already using the same instrument.
+     * Reuse existing sampler if the instrument
+     * has not changed.
      */
 
     if (
         existing &&
-        existing.instrument === instrument
+        existing.instrument === normalized
     ) {
 
         return existing.sampler;
@@ -233,7 +253,7 @@ async function loadInstrumentForTrack(
 
     /*
      * Dispose old sampler if the track
-     * is changing instruments.
+     * changed instruments.
      */
 
     if (existing) {
@@ -256,38 +276,35 @@ async function loadInstrumentForTrack(
 
 
     /*
-     * Create the new sampler.
+     * Create track sampler.
      */
 
     const sampler =
-        createSampler(instrument);
+        createSampler(normalized);
 
-
-    /*
-     * Store it immediately.
-     *
-     * This prevents multiple calls from
-     * creating duplicate samplers.
-     */
 
     trackSamplers[trackId] = {
 
         sampler,
 
-        instrument,
+        instrument: normalized
 
     };
 
 
     /*
-     * Wait until Tone has finished loading
-     * all samples for this sampler.
+     * Normally this has already completed
+     * during unlockAudio().
+     *
+     * This is only relevant if an instrument
+     * is changed dynamically.
      */
 
     await Tone.loaded();
 
 
     return sampler;
+
 }
 
 
@@ -297,13 +314,26 @@ async function loadInstrumentForTrack(
 
 export async function unlockAudio() {
 
+    /*
+     * Must happen after a user interaction.
+     */
+
     await Tone.start();
+
 
     if (!initialized) {
 
         initialized = true;
 
     }
+
+
+    /*
+     * Load piano and acoustic guitar
+     * before playback begins.
+     */
+
+    await preloadInstruments();
 
 }
 
@@ -387,7 +417,7 @@ export async function playChord(
 
     volume = 0.8,
 
-    instrument = "organ",
+    instrument = "grand_piano",
 
     trackId,
 
@@ -409,19 +439,23 @@ export async function playChord(
     }
 
 
+    const normalizedInstrument =
+        normalizeInstrument(instrument);
+
+
     /*
-     * Load sampler for this track.
+     * Get sampler for this track.
      */
 
     const sampler =
         await loadInstrumentForTrack(
             trackId,
-            instrument
+            normalizedInstrument
         );
 
 
     /*
-     * Get this track's gain.
+     * Get track gain.
      */
 
     const gain =
@@ -432,11 +466,8 @@ export async function playChord(
 
 
     /*
-     * Connect sampler to this
-     * track's gain.
-     *
-     * We mark the sampler so it
-     * isn't connected multiple times.
+     * Connect sampler to the track gain
+     * only once.
      */
 
     if (!sampler.__connectedToTrack) {
@@ -459,13 +490,7 @@ export async function playChord(
 
 
     /*
-     * Calculate duration.
-     *
-     * BPM 120:
-     *
-     * 1 beat = 0.5 seconds
-     * 2 beats = 1 second
-     * 4 beats = 2 seconds
+     * Calculate duration in seconds.
      */
 
     const duration =
@@ -477,14 +502,7 @@ export async function playChord(
 
 
     /*
-     * Convert MIDI numbers into
-     * note names.
-     *
-     * Example:
-     *
-     * 60 → C4
-     * 64 → E4
-     * 67 → G4
+     * Convert MIDI notes to Tone note names.
      */
 
     const noteNames =
@@ -511,7 +529,7 @@ export async function playChord(
     // SPEED 0
     // ========================================================
     //
-    // Only play the lowest note.
+    // Play only the lowest note.
     //
 
     if (
@@ -522,7 +540,9 @@ export async function playChord(
 
             noteNames[0],
 
-            duration
+            duration,
+
+            Tone.now()
 
         );
 
@@ -533,7 +553,7 @@ export async function playChord(
     // SPEED 1
     // ========================================================
     //
-    // Play the entire chord simultaneously.
+    // Play the whole chord simultaneously.
     //
 
     else if (
@@ -544,7 +564,9 @@ export async function playChord(
 
             noteNames,
 
-            duration
+            duration,
+
+            Tone.now()
 
         );
 
@@ -560,14 +582,6 @@ export async function playChord(
 
     else {
 
-        /*
-         * Convert speed to notes per beat.
-         *
-         * 0.25 → 1 note / beat
-         * 0.50 → 2 notes / beat
-         * 0.75 → 3 notes / beat
-         */
-
         const notesPerBeat =
             Math.max(
                 1,
@@ -577,35 +591,19 @@ export async function playChord(
             );
 
 
-        /*
-         * Duration of one beat.
-         */
-
         const beatDuration =
             60 /
             Number(bpm);
 
-
-        /*
-         * Time between arpeggio notes.
-         */
 
         const noteInterval =
             beatDuration /
             notesPerBeat;
 
 
-        /*
-         * Use one shared Tone timestamp.
-         */
-
         const startTime =
             Tone.now();
 
-
-        /*
-         * Schedule every note.
-         */
 
         noteNames.forEach(
             (
@@ -613,19 +611,10 @@ export async function playChord(
                 index
             ) => {
 
-                /*
-                 * Start offset.
-                 */
-
                 const offset =
                     index *
                     noteInterval;
 
-
-                /*
-                 * Don't start a note after
-                 * the chord has finished.
-                 */
 
                 if (
                     offset >= duration
@@ -635,11 +624,6 @@ export async function playChord(
 
                 }
 
-
-                /*
-                 * Sustain the note until
-                 * the end of the chord.
-                 */
 
                 const noteDuration =
                     duration -
@@ -663,15 +647,14 @@ export async function playChord(
 
 
     /*
-     * Keep track of this sampler so
-     * it can be stopped later.
+     * Track active sampler.
      */
 
     activeVoices.push({
 
         trackId,
 
-        sampler,
+        sampler
 
     });
 

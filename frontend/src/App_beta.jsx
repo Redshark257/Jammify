@@ -65,9 +65,16 @@ import {
 
 
 const instruments = [
-    "grand_piano",
-    "acoustic_guitar"
+    {
+        value: "grand_piano",
+        label: "Grand Piano"
+    },
+    {
+        value: "acoustic_guitar",
+        label: "Acoustic Guitar"
+    }
 ];
+
 
 
 
@@ -2513,10 +2520,10 @@ async function importSong() {
                     >
                         {instruments.map(inst => (
                             <MenuItem
-                                key={inst}
-                                value={inst}
+                                key={inst.value}
+                                value={inst.value}
                             >
-                                {inst.replaceAll("_", " ")}
+                                {inst.label}
                             </MenuItem>
                         ))}
                     </TextField>
