@@ -300,7 +300,7 @@ async function loadInstrumentForTrack(
      * is changed dynamically.
      */
 
-    await Tone.loaded();
+    // await Tone.loaded();
 
 
     return sampler;
