@@ -2931,7 +2931,7 @@ async function importSong() {
                             key={inst}
                             value={inst}
                         >
-                            {inst.replaceAll("_"," ")}
+                            {inst.label}
                         </MenuItem>
                     ))}
                 </TextField>
