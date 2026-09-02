@@ -402,6 +402,30 @@ export function updateTrackVolume(
 
 }
 
+export async function prepareTrackInstrument(trackId, instrument) {
+
+    const normalized = normalizeInstrument(instrument);
+
+    const existing = trackSamplers[trackId];
+
+    if (
+        existing &&
+        existing.instrument === normalized
+    ) {
+        return;
+    }
+
+    const sampler = createSampler(normalized);
+
+    trackSamplers[trackId] = {
+        sampler,
+        instrument: normalized
+    };
+
+    await Tone.loaded();
+}
+
+
 
 // ============================================================
 // PLAY CHORD

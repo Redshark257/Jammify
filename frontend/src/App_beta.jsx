@@ -57,8 +57,8 @@ import {
     unlockAudio,
     playChord,
     stopAllNotes,
-    updateTrackVolume as updateAudioTrackVolume
-
+    updateTrackVolume as updateAudioTrackVolume,
+    prepareTrackInstrument
 } from "./audio2";
 
 
@@ -1316,6 +1316,20 @@ const startPlayback = async () => {
      * button click.
      */
     await unlockAudio();
+
+    await Promise.all(
+        tracksRef.current.map(track =>
+            Promise.all(
+                track.chords.map(chord =>
+                    prepareTrackInstrument(
+                        track.id,
+                        chord.instrument
+                    )
+                )
+            )
+        )
+    );
+
 
 
     /*
