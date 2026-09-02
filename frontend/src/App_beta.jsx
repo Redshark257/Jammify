@@ -832,7 +832,7 @@ const itemToMidi = (item) => {
 
 };
 
-const playStep = (chords, playbackId) => {
+const playStep = async (chords, playbackId) => {
 
     if (
         !playingRef.current ||
@@ -845,43 +845,45 @@ const playStep = (chords, playbackId) => {
         chords.map(chord => chord.uiId)
     );
 
-    chords.forEach(chord => {
+    await Promise.all(
+        chords.map(async chord => {
 
-        const midiNotes = itemToMidi(chord);
+            const midiNotes = itemToMidi(chord);
 
-        const pattern =
-            chord.pattern ||
-            createPattern(chord.beats);
+            const pattern =
+                chord.pattern ||
+                createPattern(chord.beats);
 
-        const currentBeat =
-            chord.state.beat;
+            const currentBeat =
+                chord.state.beat;
 
-        let durationBeats = 1;
+            let durationBeats = 1;
 
-        for (
-            let i = currentBeat + 1;
-            i < chord.beats;
-            i++
-        ) {
-            if (pattern[i] === true) {
-                break;
+            for (
+                let i = currentBeat + 1;
+                i < chord.beats;
+                i++
+            ) {
+
+                if (pattern[i] === true) {
+                    break;
+                }
+
+                durationBeats++;
             }
 
-            durationBeats++;
-        }
+            await playChord(
+                midiNotes,
+                durationBeats,
+                bpmRef.current,
+                chord.volume,
+                chord.instrument,
+                chord.trackId,
+                Number(chord.speed ?? 1)
+            );
 
-        playChord(
-            midiNotes,
-            durationBeats,
-            bpmRef.current,
-            chord.volume,
-            chord.instrument,
-            chord.trackId,
-            Number(chord.speed ?? 1)
-        );
-
-    });
-
+        })
+    );
 
     /*
      * Playback may have been stopped while
@@ -2926,8 +2928,8 @@ async function importSong() {
                 >
                     {instruments.map(inst=>(
                         <MenuItem
-                            key={inst}
-                            value={inst}
+                            key={inst.value}
+                            value={inst.value}
                         >
                             {inst.label}
                         </MenuItem>
