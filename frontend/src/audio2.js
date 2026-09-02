@@ -31,6 +31,19 @@ let initialized = false;
 
 const instrumentConfigs = {
 
+
+    piano: {
+
+        folder: "piano",
+
+        urls: {
+            C1: "C1.mp3",
+            C2: "C2.mp3",
+            C3: "C3.mp3",
+            C4: "C4.mp3",
+        },
+    },
+
     bass: {
         folder: "bass-electric",
 
@@ -109,23 +122,17 @@ const instrumentConfigs = {
 
 const instrumentAliases = {
 
+    grand_pinao: "piano",
+
     finger_bass: "bass",
 
     bass: "bass",
 
     acoustic_guitar: "acoustic_guitar",
 
-    guitar_acoustic: "acoustic_guitar",
-
-    rock_guitar: "electric_guitar",
-
     electric_guitar: "electric_guitar",
 
-    guitar_electric: "electric_guitar",
-
     nylon_guitar: "nylon_guitar",
-
-    guitar_nylon: "nylon_guitar",
 
     church_organ: "organ",
 
