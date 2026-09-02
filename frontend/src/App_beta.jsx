@@ -59,7 +59,9 @@ import {
     stopAllNotes,
     updateTrackVolume as updateAudioTrackVolume
 
-} from "./audio";
+} from "./audio2";
+
+
 
 
 const instruments = [
