@@ -58,6 +58,7 @@ import {
     playChord,
     stopAllNotes,
     updateTrackVolume as updateAudioTrackVolume,
+    updateMasterVolume as updateAudioMasterVolume,
     prepareTrackInstrument
 } from "./audio2";
 
@@ -356,6 +357,14 @@ function App() {
     });
 
     
+const [masterVolume, setMasterVolume] = useState(1);
+
+const changeMasterVolume = (volume) => {
+    setMasterVolume(volume);
+    updateAudioMasterVolume(volume);
+};
+
+
 const handleDragEnd = (trackId, event) => {
 
     const { active, over } = event;
@@ -1622,6 +1631,52 @@ async function importSong() {
         }}
 
       >
+        {/* Master Volume */}
+        <div
+            style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                width: 180
+            }}
+        >
+            <span
+                style={{
+                    fontSize: 13,
+                    fontWeight: 600,
+                    color: colors.text,
+                    whiteSpace: "nowrap"
+                }}
+            >
+                Master
+            </span>
+
+            <Slider
+                value={masterVolume}
+                min={0}
+                max={1}
+                step={0.01}
+                onChange={(e, value) => {
+                    changeMasterVolume(value);
+                }}
+                sx={{
+                    color: colors.primary,
+                    flex: 1
+                }}
+            />
+
+            <span
+                style={{
+                    width: 35,
+                    textAlign: "right",
+                    fontSize: 12,
+                    color: colors.text
+                }}
+            >
+                {Math.round(masterVolume * 100)}%
+            </span>
+        </div>
+
 
 
         {!isPlaying ? (

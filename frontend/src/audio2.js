@@ -9,6 +9,7 @@ let instrumentSamplers = {};
 let trackGains = {};
 let samplerConnections = {};
 
+let masterGain = null;
 let initialized = false;
 let preloadPromise = null;
 
@@ -311,6 +312,10 @@ export async function unlockAudio() {
 
     await Tone.start();
 
+    if (!masterGain) {
+        masterGain = new Tone.Gain(1).toDestination();
+    }
+
 
     initialized = true;
 
@@ -405,7 +410,7 @@ function getTrackGain(
         trackGains[key] =
             new Tone.Gain(
                 Number(volume)
-            ).toDestination();
+            ).connect(masterGain);;
 
     }
 
@@ -439,6 +444,26 @@ export function updateTrackVolume(
 
     gain.gain.rampTo(
         Number(volume),
+        0.05
+    );
+
+}
+
+
+export function updateMasterVolume(volume) {
+
+    if (!masterGain) {
+        return;
+    }
+
+    masterGain.gain.rampTo(
+        Math.max(
+            0,
+            Math.min(
+                1,
+                Number(volume)
+            )
+        ),
         0.05
     );
 
@@ -964,6 +989,23 @@ export function disposeAudio() {
 
         }
     );
+
+    if (masterGain) {
+
+        try {
+            masterGain.dispose();
+        }
+        catch (error) {
+            console.warn(
+                "[audio] Unable to dispose master gain:",
+                error
+            );
+        }
+
+    }
+
+    masterGain = null;
+
 
 
     instrumentSamplers = {};
