@@ -72,6 +72,15 @@ const instruments = [
     {
         value: "acoustic_guitar",
         label: "Acoustic Guitar"
+    },
+
+    {
+        value: "electric_guitar",
+        label: "Electric Guitar"
+    },
+    {
+        value: "organ",
+        label: "Church Organ"
     }
 ];
 

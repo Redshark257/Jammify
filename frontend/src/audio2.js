@@ -44,6 +44,30 @@ const instrumentConfigs = {
             C5: "C5.mp3"
         }
 
+    },
+
+    electric_guitar: {
+
+        folder: "guitar-electric",
+
+        urls: {
+            C3: "C3.mp3",
+            C4: "C4.mp3",
+            C5: "C5.mp3"
+        }
+
+    },
+
+    organ: {
+
+        folder: "organ",
+
+        urls: {
+            C3: "C3.mp3",
+            C4: "C4.mp3",
+            C5: "C5.mp3"
+        }
+
     }
 
 };
