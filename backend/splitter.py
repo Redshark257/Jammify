@@ -1,6 +1,5 @@
 import subprocess
 import sys
-import tempfile
 from pathlib import Path
 
 
@@ -14,19 +13,19 @@ STEMS = [
 ]
 
 
-def separate_audio(input_file):
+def separate_audio(input_file, output_dir):
     input_file = Path(input_file)
+    output_dir = Path(output_dir)
 
     if not input_file.exists():
         raise FileNotFoundError(
             f"File not found: {input_file}"
         )
 
-    # Create a temporary directory.
-    # It will be automatically deleted when the caller exits
-    # the context manager.
-    temp_dir = tempfile.TemporaryDirectory()
-    output_dir = Path(temp_dir.name)
+    output_dir.mkdir(
+        parents=True,
+        exist_ok=True
+    )
 
     command = [
         sys.executable,
@@ -55,7 +54,6 @@ def separate_audio(input_file):
     )
 
     if not stem_dir.exists():
-        temp_dir.cleanup()
         raise FileNotFoundError(
             f"Demucs output directory not found: {stem_dir}"
         )
@@ -77,7 +75,6 @@ def separate_audio(input_file):
             )
 
     if "guitar" not in stems:
-        temp_dir.cleanup()
         raise FileNotFoundError(
             "Demucs did not produce guitar.wav"
         )
@@ -85,33 +82,6 @@ def separate_audio(input_file):
     print("\nSeparation complete!")
 
     return {
-        "temp_dir": temp_dir,
         "directory": str(stem_dir),
         "stems": stems,
     }
-
-
-if __name__ == "__main__":
-
-    if len(sys.argv) != 2:
-        print("Usage:")
-        print("  python splitter.py song.wav")
-        sys.exit(1)
-
-    result = separate_audio(sys.argv[1])
-
-    try:
-        print(
-            f"\nOutput directory: {result['directory']}"
-        )
-
-        for stem, path in result["stems"].items():
-            print(f"{stem}: {path}")
-
-        # Do whatever processing you need with the WAV files here.
-        # They remain available during this block.
-
-    finally:
-        # Delete all separated WAV files and the temporary directory.
-        result["temp_dir"].cleanup()
-        print("\nTemporary stem files deleted.")
