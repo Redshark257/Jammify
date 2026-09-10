@@ -1,0 +1,729 @@
+{
+  "bpm": 112.34714673913044,
+  "chords": [
+    {
+      "type": "chord",
+      "name": "F#m",
+      "octave": 5,
+      "inversion": 0,
+      "beats": 1,
+      "repeat": 2,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true
+      ],
+      "total_beats": 2
+    },
+    {
+      "type": "chord",
+      "name": "F#m",
+      "octave": 2,
+      "inversion": 0,
+      "beats": 1,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true
+      ],
+      "total_beats": 1
+    },
+    {
+      "type": "chord",
+      "name": "A",
+      "octave": 3,
+      "inversion": 0,
+      "beats": 1,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true
+      ],
+      "total_beats": 1
+    },
+    {
+      "type": "chord",
+      "name": "E",
+      "octave": 5,
+      "inversion": 0,
+      "beats": 1,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true
+      ],
+      "total_beats": 1
+    },
+    {
+      "type": "chord",
+      "name": "F#m",
+      "octave": 3,
+      "inversion": 0,
+      "beats": 1,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true
+      ],
+      "total_beats": 1
+    },
+    {
+      "type": "chord",
+      "name": "A",
+      "octave": 3,
+      "inversion": 0,
+      "beats": 1,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true
+      ],
+      "total_beats": 1
+    },
+    {
+      "type": "chord",
+      "name": "E",
+      "octave": 5,
+      "inversion": 0,
+      "beats": 2,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true
+      ],
+      "total_beats": 2
+    },
+    {
+      "type": "chord",
+      "name": "A",
+      "octave": 3,
+      "inversion": 0,
+      "beats": 1,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true
+      ],
+      "total_beats": 1
+    },
+    {
+      "type": "chord",
+      "name": "F#m",
+      "octave": 3,
+      "inversion": 0,
+      "beats": 2,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true
+      ],
+      "total_beats": 2
+    },
+    {
+      "type": "chord",
+      "name": "A",
+      "octave": 3,
+      "inversion": 0,
+      "beats": 1,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true
+      ],
+      "total_beats": 1
+    },
+    {
+      "type": "chord",
+      "name": "B",
+      "octave": 3,
+      "inversion": 0,
+      "beats": 1,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true
+      ],
+      "total_beats": 1
+    },
+    {
+      "type": "chord",
+      "name": "C",
+      "octave": 4,
+      "inversion": 0,
+      "beats": 1,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true
+      ],
+      "total_beats": 1
+    },
+    {
+      "type": "chord",
+      "name": "F#m",
+      "octave": 4,
+      "inversion": 0,
+      "beats": 1,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true
+      ],
+      "total_beats": 1
+    },
+    {
+      "type": "chord",
+      "name": "F#m",
+      "octave": 3,
+      "inversion": 0,
+      "beats": 1,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true
+      ],
+      "total_beats": 1
+    },
+    {
+      "type": "chord",
+      "name": "A",
+      "octave": 3,
+      "inversion": 0,
+      "beats": 1,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true
+      ],
+      "total_beats": 1
+    },
+    {
+      "type": "chord",
+      "name": "E",
+      "octave": 5,
+      "inversion": 0,
+      "beats": 1,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true
+      ],
+      "total_beats": 1
+    },
+    {
+      "type": "chord",
+      "name": "F#m",
+      "octave": 3,
+      "inversion": 0,
+      "beats": 1,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true
+      ],
+      "total_beats": 1
+    },
+    {
+      "type": "chord",
+      "name": "A",
+      "octave": 3,
+      "inversion": 0,
+      "beats": 1,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true
+      ],
+      "total_beats": 1
+    },
+    {
+      "type": "chord",
+      "name": "E",
+      "octave": 5,
+      "inversion": 0,
+      "beats": 2,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true
+      ],
+      "total_beats": 2
+    },
+    {
+      "type": "chord",
+      "name": "A",
+      "octave": 5,
+      "inversion": 0,
+      "beats": 1,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true
+      ],
+      "total_beats": 1
+    },
+    {
+      "type": "chord",
+      "name": "F#m",
+      "octave": 3,
+      "inversion": 0,
+      "beats": 2,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true
+      ],
+      "total_beats": 2
+    },
+    {
+      "type": "chord",
+      "name": "A",
+      "octave": 3,
+      "inversion": 0,
+      "beats": 1,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true
+      ],
+      "total_beats": 1
+    },
+    {
+      "type": "chord",
+      "name": "B",
+      "octave": 3,
+      "inversion": 0,
+      "beats": 1,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true
+      ],
+      "total_beats": 1
+    },
+    {
+      "type": "chord",
+      "name": "C",
+      "octave": 4,
+      "inversion": 0,
+      "beats": 1,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true
+      ],
+      "total_beats": 1
+    },
+    {
+      "type": "chord",
+      "name": "F#m",
+      "octave": 4,
+      "inversion": 0,
+      "beats": 1,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true
+      ],
+      "total_beats": 1
+    },
+    {
+      "type": "chord",
+      "name": "C7",
+      "octave": 4,
+      "inversion": 0,
+      "beats": 1,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true
+      ],
+      "total_beats": 1
+    },
+    {
+      "type": "chord",
+      "name": "F#m",
+      "octave": 4,
+      "inversion": 0,
+      "beats": 1,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true
+      ],
+      "total_beats": 1
+    },
+    {
+      "type": "chord",
+      "name": "C9",
+      "octave": 3,
+      "inversion": 0,
+      "beats": 1,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true
+      ],
+      "total_beats": 1
+    },
+    {
+      "type": "chord",
+      "name": "F#m",
+      "octave": 4,
+      "inversion": 0,
+      "beats": 1,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true
+      ],
+      "total_beats": 1
+    },
+    {
+      "type": "chord",
+      "name": "C9",
+      "octave": 3,
+      "inversion": 0,
+      "beats": 1,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true
+      ],
+      "total_beats": 1
+    },
+    {
+      "type": "chord",
+      "name": "F#m",
+      "octave": 5,
+      "inversion": 0,
+      "beats": 1,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true
+      ],
+      "total_beats": 1
+    }
+  ],
+  "timeline": [
+    {
+      "name": "F#m",
+      "beats": 1,
+      "start": 0.0,
+      "end": 0.534,
+      "octave": 5,
+      "octave_confidence": 1.265
+    },
+    {
+      "name": "F#m",
+      "beats": 1,
+      "start": 0.534,
+      "end": 1.068,
+      "octave": 5,
+      "octave_confidence": 1.389
+    },
+    {
+      "name": "F#m",
+      "beats": 1,
+      "start": 1.068,
+      "end": 1.602,
+      "octave": 2,
+      "octave_confidence": 1.219
+    },
+    {
+      "name": "A",
+      "beats": 1,
+      "start": 1.602,
+      "end": 2.136,
+      "octave": 3,
+      "octave_confidence": 1.565
+    },
+    {
+      "name": "E",
+      "beats": 1,
+      "start": 2.136,
+      "end": 2.67,
+      "octave": 5,
+      "octave_confidence": 1.787
+    },
+    {
+      "name": "F#m",
+      "beats": 1,
+      "start": 2.67,
+      "end": 3.204,
+      "octave": 3,
+      "octave_confidence": 1.86
+    },
+    {
+      "name": "A",
+      "beats": 1,
+      "start": 3.204,
+      "end": 3.738,
+      "octave": 3,
+      "octave_confidence": 2.332
+    },
+    {
+      "name": "E",
+      "beats": 2,
+      "start": 3.738,
+      "end": 4.807,
+      "octave": 5,
+      "octave_confidence": 2.366
+    },
+    {
+      "name": "A",
+      "beats": 1,
+      "start": 4.807,
+      "end": 5.341,
+      "octave": 3,
+      "octave_confidence": 1.293
+    },
+    {
+      "name": "F#m",
+      "beats": 2,
+      "start": 5.341,
+      "end": 6.409,
+      "octave": 3,
+      "octave_confidence": 1.361
+    },
+    {
+      "name": "A",
+      "beats": 1,
+      "start": 6.409,
+      "end": 6.943,
+      "octave": 3,
+      "octave_confidence": 1.434
+    },
+    {
+      "name": "B",
+      "beats": 1,
+      "start": 6.943,
+      "end": 7.477,
+      "octave": 3,
+      "octave_confidence": 1.73
+    },
+    {
+      "name": "C",
+      "beats": 1,
+      "start": 7.477,
+      "end": 8.011,
+      "octave": 4,
+      "octave_confidence": 1.518
+    },
+    {
+      "name": "F#m",
+      "beats": 1,
+      "start": 8.011,
+      "end": 8.545,
+      "octave": 4,
+      "octave_confidence": 1.319
+    },
+    {
+      "name": "F#m",
+      "beats": 1,
+      "start": 8.545,
+      "end": 9.079,
+      "octave": 3,
+      "octave_confidence": 2.287
+    },
+    {
+      "name": "A",
+      "beats": 1,
+      "start": 9.079,
+      "end": 9.613,
+      "octave": 3,
+      "octave_confidence": 1.53
+    },
+    {
+      "name": "E",
+      "beats": 1,
+      "start": 9.613,
+      "end": 10.147,
+      "octave": 5,
+      "octave_confidence": 1.496
+    },
+    {
+      "name": "F#m",
+      "beats": 1,
+      "start": 10.147,
+      "end": 10.681,
+      "octave": 3,
+      "octave_confidence": 1.18
+    },
+    {
+      "name": "A",
+      "beats": 1,
+      "start": 10.681,
+      "end": 11.215,
+      "octave": 3,
+      "octave_confidence": 1.009
+    },
+    {
+      "name": "E",
+      "beats": 2,
+      "start": 11.215,
+      "end": 12.283,
+      "octave": 5,
+      "octave_confidence": 1.757
+    },
+    {
+      "name": "A",
+      "beats": 1,
+      "start": 12.283,
+      "end": 12.817,
+      "octave": 5,
+      "octave_confidence": 1.387
+    },
+    {
+      "name": "F#m",
+      "beats": 2,
+      "start": 12.817,
+      "end": 13.886,
+      "octave": 3,
+      "octave_confidence": 2.169
+    },
+    {
+      "name": "A",
+      "beats": 1,
+      "start": 13.886,
+      "end": 14.42,
+      "octave": 3,
+      "octave_confidence": 1.682
+    },
+    {
+      "name": "B",
+      "beats": 1,
+      "start": 14.42,
+      "end": 14.954,
+      "octave": 3,
+      "octave_confidence": 1.177
+    },
+    {
+      "name": "C",
+      "beats": 1,
+      "start": 14.954,
+      "end": 15.488,
+      "octave": 4,
+      "octave_confidence": 2.275
+    },
+    {
+      "name": "F#m",
+      "beats": 1,
+      "start": 15.488,
+      "end": 16.022,
+      "octave": 4,
+      "octave_confidence": 1.834
+    },
+    {
+      "name": "C7",
+      "beats": 1,
+      "start": 16.022,
+      "end": 16.556,
+      "octave": 4,
+      "octave_confidence": 1.114
+    },
+    {
+      "name": "F#m",
+      "beats": 1,
+      "start": 16.556,
+      "end": 17.09,
+      "octave": 4,
+      "octave_confidence": 1.964
+    },
+    {
+      "name": "C9",
+      "beats": 1,
+      "start": 17.09,
+      "end": 17.624,
+      "octave": 3,
+      "octave_confidence": 1.01
+    },
+    {
+      "name": "F#m",
+      "beats": 1,
+      "start": 17.624,
+      "end": 18.158,
+      "octave": 4,
+      "octave_confidence": 1.059
+    },
+    {
+      "name": "C9",
+      "beats": 1,
+      "start": 18.158,
+      "end": 18.692,
+      "octave": 3,
+      "octave_confidence": 1.112
+    },
+    {
+      "name": "F#m",
+      "beats": 1,
+      "start": 18.692,
+      "end": 19.226,
+      "octave": 5,
+      "octave_confidence": 1.235
+    }
+  ],
+  "title": "IMMIGRANT SONG CHORDS by Led Zeppelin @ Ultimate-Guitar.Com"
+}
