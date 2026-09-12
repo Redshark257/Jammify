@@ -14,6 +14,7 @@ STEMS = [
 
 
 def separate_audio(input_file, output_dir):
+
     input_file = Path(input_file)
     output_dir = Path(output_dir)
 
@@ -24,28 +25,56 @@ def separate_audio(input_file, output_dir):
 
     output_dir.mkdir(
         parents=True,
-        exist_ok=True
+        exist_ok=True,
     )
 
     command = [
         sys.executable,
         "-m",
         "demucs",
+
+        # Six-stem model because Jammify needs guitar.wav
         "-n",
         "htdemucs_6s",
+
+        # Render CPU
+        "-d",
+        "cpu",
+
+        # Reduce memory usage
+        "--segment",
+        "7",
+
         "-o",
         str(output_dir),
+
         str(input_file),
     ]
 
     print(f"Separating: {input_file}")
     print("Model: htdemucs_6s")
+    print("Device: CPU")
+    print("Segment: 7")
     print()
 
-    subprocess.run(
+    process = subprocess.Popen(
         command,
-        check=True
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        bufsize=1,
     )
+
+    if process.stdout:
+        for line in process.stdout:
+            print("[DEMUCS]", line.rstrip())
+
+    return_code = process.wait()
+
+    if return_code != 0:
+        raise RuntimeError(
+            f"Demucs failed with exit code {return_code}"
+        )
 
     stem_dir = (
         output_dir
@@ -61,15 +90,19 @@ def separate_audio(input_file, output_dir):
     stems = {}
 
     for stem in STEMS:
+
         path = stem_dir / f"{stem}.wav"
 
         if path.exists():
+
             stems[stem] = str(path)
 
             print(
                 f"✓ {stem:8} -> {path}"
             )
+
         else:
+
             print(
                 f"✗ {stem:8} -> NOT FOUND"
             )
