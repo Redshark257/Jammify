@@ -30,6 +30,11 @@ from song_analyzer import (
     analyze_song,
 )
 
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent
+
+
 
 # ============================================================
 # APP
@@ -308,7 +313,13 @@ async def analyze_uploaded_song(
         )
         '''
 
-        guitar_file = "/home/red/Documents/Projects/Jammify/backend/output/htdemucs_6s/Immigrant_Song/guitar.wav"
+        guitar_file = (
+            BASE_DIR
+            / "output"
+            / "htdemucs_6s"
+            / "Immigrant_Song"
+            / "guitar.wav"
+        )
 
         if not guitar_file:
 

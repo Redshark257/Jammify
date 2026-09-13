@@ -1457,7 +1457,6 @@ const [importingChords, setImportingChords] = useState(false);
 const [analyzingAudio, setAnalyzingAudio] = useState(false);
 
 const [importError, setImportError] = useState("");
-const [analysisJobId, setAnalysisJobId] = useState(null);
 
 
 // import song
@@ -1644,6 +1643,13 @@ async function analyzeAudio() {
         return;
     }
 
+    if (!songUrl.trim()) {
+        setImportError(
+            "Please enter an Ultimate Guitar URL first."
+        );
+        return;
+    }
+
     if (!selectedTrack) {
         setImportError(
             "Please import and select a track first."
@@ -1659,12 +1665,17 @@ async function analyzeAudio() {
         const formData = new FormData();
 
         formData.append(
+            "tabs_url",
+            songUrl
+        );
+
+        formData.append(
             "audio_file",
             audioFile
         );
 
         const response = await fetch(
-            `${API_URL}/analyze-audio`,
+            `${API_URL}/analyze-song`,
             {
                 method: "POST",
                 body: formData
@@ -1676,100 +1687,55 @@ async function analyzeAudio() {
         if (!response.ok) {
             throw new Error(
                 data.detail ||
-                "Failed to start audio analysis."
+                "Failed to analyze audio."
             );
         }
 
-        const jobId = data.job_id;
-
-        setAnalysisJobId(jobId);
-
-        await pollAnalysisJob(
-            jobId,
-            selectedTrack
+        console.log(
+            "Audio analysis result:",
+            data
         );
+
+        updateTrackFromAudioAnalysis(
+            selectedTrack,
+            data
+        );
+
+        if (data.bpm) {
+
+            setBpm(
+                Math.min(
+                    240,
+                    Math.max(
+                        40,
+                        Math.round(
+                            Number(data.bpm)
+                        )
+                    )
+                )
+            );
+
+        }
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "Audio analysis error:",
+            error
+        );
 
         setImportError(
             error.message ||
             "Failed to analyze audio."
         );
 
+    } finally {
+
         setAnalyzingAudio(false);
+
     }
 }
 
-
-async function pollAnalysisJob(
-    jobId,
-    trackId
-) {
-
-    while (true) {
-
-        const response = await fetch(
-            `${API_URL}/analysis-status/${jobId}`
-        );
-
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(
-                data.detail ||
-                "Failed to check analysis status."
-            );
-        }
-
-
-        if (data.status === "completed") {
-
-            updateTrackFromAudioAnalysis(
-                trackId,
-                data.result
-            );
-
-            if (data.result?.bpm) {
-
-                setBpm(
-                    Math.min(
-                        240,
-                        Math.max(
-                            40,
-                            Math.round(
-                                Number(data.result.bpm)
-                            )
-                        )
-                    )
-                );
-
-            }
-
-            setAnalyzingAudio(false);
-
-            return;
-        }
-
-
-        if (data.status === "failed") {
-
-            throw new Error(
-                data.error ||
-                "Audio analysis failed."
-            );
-
-        }
-
-
-        // Still processing.
-        await new Promise(
-            resolve =>
-                setTimeout(resolve, 2000)
-        );
-    }
-}
 
 
 
