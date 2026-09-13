@@ -4,82 +4,139 @@
     {
       "type": "chord",
       "name": "F#m",
-      "octave": 5,
+      "octave": 3,
       "inversion": 0,
-      "beats": 1,
+      "beats": 4,
       "repeat": 3,
       "instrument": "grand_piano",
       "wait": 0,
       "speed": 1,
       "pattern": [
-        true
+        true,
+        false,
+        false,
+        false
       ],
-      "total_beats": 3
+      "total_beats": 12
+    },
+    {
+      "type": "chord",
+      "name": "A",
+      "octave": 3,
+      "inversion": 0,
+      "beats": 4,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true,
+        false,
+        false,
+        false
+      ],
+      "total_beats": 4
+    },
+    {
+      "type": "chord",
+      "name": "E",
+      "octave": 5,
+      "inversion": 0,
+      "beats": 4,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true,
+        false,
+        false,
+        false
+      ],
+      "total_beats": 4
+    },
+    {
+      "type": "chord",
+      "name": "F#m",
+      "octave": 4,
+      "inversion": 0,
+      "beats": 2,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true,
+        false
+      ],
+      "total_beats": 2
     },
     {
       "type": "chord",
       "name": "A",
       "octave": 2,
       "inversion": 0,
-      "beats": 1,
+      "beats": 4,
       "repeat": 1,
       "instrument": "grand_piano",
       "wait": 0,
       "speed": 1,
       "pattern": [
-        true
+        true,
+        false,
+        false,
+        false
       ],
-      "total_beats": 1
+      "total_beats": 4
     },
     {
       "type": "chord",
       "name": "E",
-      "octave": 5,
+      "octave": 2,
       "inversion": 0,
-      "beats": 1,
+      "beats": 8,
       "repeat": 1,
       "instrument": "grand_piano",
       "wait": 0,
       "speed": 1,
       "pattern": [
-        true
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
       ],
-      "total_beats": 1
-    },
-    {
-      "type": "chord",
-      "name": "F#m",
-      "octave": 3,
-      "inversion": 0,
-      "beats": 1,
-      "repeat": 1,
-      "instrument": "grand_piano",
-      "wait": 0,
-      "speed": 1,
-      "pattern": [
-        true
-      ],
-      "total_beats": 1
+      "total_beats": 8
     },
     {
       "type": "chord",
       "name": "A",
-      "octave": 3,
+      "octave": 2,
       "inversion": 0,
-      "beats": 1,
+      "beats": 8,
       "repeat": 1,
       "instrument": "grand_piano",
       "wait": 0,
       "speed": 1,
       "pattern": [
-        true
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
       ],
-      "total_beats": 1
+      "total_beats": 8
     },
     {
       "type": "chord",
-      "name": "E",
-      "octave": 5,
+      "name": "F#m",
+      "octave": 2,
       "inversion": 0,
       "beats": 2,
       "repeat": 1,
@@ -87,73 +144,172 @@
       "wait": 0,
       "speed": 1,
       "pattern": [
-        true
+        true,
+        false
       ],
       "total_beats": 2
     },
     {
       "type": "chord",
       "name": "A",
-      "octave": 3,
+      "octave": 2,
       "inversion": 0,
-      "beats": 1,
+      "beats": 4,
       "repeat": 1,
       "instrument": "grand_piano",
       "wait": 0,
       "speed": 1,
       "pattern": [
-        true
+        true,
+        false,
+        false,
+        false
       ],
-      "total_beats": 1
-    },
-    {
-      "type": "chord",
-      "name": "F#m",
-      "octave": 3,
-      "inversion": 0,
-      "beats": 2,
-      "repeat": 1,
-      "instrument": "grand_piano",
-      "wait": 0,
-      "speed": 1,
-      "pattern": [
-        true
-      ],
-      "total_beats": 2
-    },
-    {
-      "type": "chord",
-      "name": "A",
-      "octave": 3,
-      "inversion": 0,
-      "beats": 1,
-      "repeat": 1,
-      "instrument": "grand_piano",
-      "wait": 0,
-      "speed": 1,
-      "pattern": [
-        true
-      ],
-      "total_beats": 1
+      "total_beats": 4
     },
     {
       "type": "chord",
       "name": "B",
-      "octave": 3,
+      "octave": 2,
       "inversion": 0,
-      "beats": 1,
+      "beats": 4,
       "repeat": 1,
       "instrument": "grand_piano",
       "wait": 0,
       "speed": 1,
       "pattern": [
-        true
+        true,
+        false,
+        false,
+        false
       ],
-      "total_beats": 1
+      "total_beats": 4
     },
     {
       "type": "chord",
       "name": "C",
+      "octave": 3,
+      "inversion": 0,
+      "beats": 2,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true,
+        false
+      ],
+      "total_beats": 2
+    },
+    {
+      "type": "chord",
+      "name": "F#m",
+      "octave": 4,
+      "inversion": 0,
+      "beats": 1,
+      "repeat": 2,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true
+      ],
+      "total_beats": 2
+    },
+    {
+      "type": "chord",
+      "name": "A",
+      "octave": 2,
+      "inversion": 0,
+      "beats": 2,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true,
+        false
+      ],
+      "total_beats": 2
+    },
+    {
+      "type": "chord",
+      "name": "E",
+      "octave": 3,
+      "inversion": 0,
+      "beats": 8,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "total_beats": 8
+    },
+    {
+      "type": "chord",
+      "name": "F#m",
+      "octave": 2,
+      "inversion": 0,
+      "beats": 8,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "total_beats": 8
+    },
+    {
+      "type": "chord",
+      "name": "A",
+      "octave": 2,
+      "inversion": 0,
+      "beats": 2,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true,
+        false
+      ],
+      "total_beats": 2
+    },
+    {
+      "type": "chord",
+      "name": "E",
+      "octave": 4,
+      "inversion": 0,
+      "beats": 1,
+      "repeat": 1,
+      "instrument": "grand_piano",
+      "wait": 0,
+      "speed": 1,
+      "pattern": [
+        true
+      ],
+      "total_beats": 1
+    },
+    {
+      "type": "chord",
+      "name": "A",
       "octave": 4,
       "inversion": 0,
       "beats": 1,
@@ -171,544 +327,563 @@
       "name": "F#m",
       "octave": 4,
       "inversion": 0,
-      "beats": 1,
+      "beats": 4,
       "repeat": 1,
       "instrument": "grand_piano",
       "wait": 0,
       "speed": 1,
       "pattern": [
-        true
+        true,
+        false,
+        false,
+        false
       ],
-      "total_beats": 1
-    },
-    {
-      "type": "chord",
-      "name": "F#m",
-      "octave": 3,
-      "inversion": 0,
-      "beats": 1,
-      "repeat": 1,
-      "instrument": "grand_piano",
-      "wait": 0,
-      "speed": 1,
-      "pattern": [
-        true
-      ],
-      "total_beats": 1
+      "total_beats": 4
     },
     {
       "type": "chord",
       "name": "A",
-      "octave": 3,
+      "octave": 2,
       "inversion": 0,
-      "beats": 1,
+      "beats": 8,
       "repeat": 1,
       "instrument": "grand_piano",
       "wait": 0,
       "speed": 1,
       "pattern": [
-        true
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
       ],
-      "total_beats": 1
-    },
-    {
-      "type": "chord",
-      "name": "E",
-      "octave": 5,
-      "inversion": 0,
-      "beats": 1,
-      "repeat": 1,
-      "instrument": "grand_piano",
-      "wait": 0,
-      "speed": 1,
-      "pattern": [
-        true
-      ],
-      "total_beats": 1
-    },
-    {
-      "type": "chord",
-      "name": "F#m",
-      "octave": 3,
-      "inversion": 0,
-      "beats": 1,
-      "repeat": 1,
-      "instrument": "grand_piano",
-      "wait": 0,
-      "speed": 1,
-      "pattern": [
-        true
-      ],
-      "total_beats": 1
-    },
-    {
-      "type": "chord",
-      "name": "A",
-      "octave": 5,
-      "inversion": 0,
-      "beats": 1,
-      "repeat": 1,
-      "instrument": "grand_piano",
-      "wait": 0,
-      "speed": 1,
-      "pattern": [
-        true
-      ],
-      "total_beats": 1
-    },
-    {
-      "type": "chord",
-      "name": "E",
-      "octave": 5,
-      "inversion": 0,
-      "beats": 2,
-      "repeat": 1,
-      "instrument": "grand_piano",
-      "wait": 0,
-      "speed": 1,
-      "pattern": [
-        true
-      ],
-      "total_beats": 2
-    },
-    {
-      "type": "chord",
-      "name": "A",
-      "octave": 5,
-      "inversion": 0,
-      "beats": 1,
-      "repeat": 1,
-      "instrument": "grand_piano",
-      "wait": 0,
-      "speed": 1,
-      "pattern": [
-        true
-      ],
-      "total_beats": 1
-    },
-    {
-      "type": "chord",
-      "name": "F#m",
-      "octave": 3,
-      "inversion": 0,
-      "beats": 2,
-      "repeat": 1,
-      "instrument": "grand_piano",
-      "wait": 0,
-      "speed": 1,
-      "pattern": [
-        true
-      ],
-      "total_beats": 2
-    },
-    {
-      "type": "chord",
-      "name": "A",
-      "octave": 3,
-      "inversion": 0,
-      "beats": 1,
-      "repeat": 1,
-      "instrument": "grand_piano",
-      "wait": 0,
-      "speed": 1,
-      "pattern": [
-        true
-      ],
-      "total_beats": 1
+      "total_beats": 8
     },
     {
       "type": "chord",
       "name": "B",
-      "octave": 3,
+      "octave": 2,
       "inversion": 0,
-      "beats": 1,
+      "beats": 4,
       "repeat": 1,
       "instrument": "grand_piano",
       "wait": 0,
       "speed": 1,
       "pattern": [
-        true
+        true,
+        false,
+        false,
+        false
       ],
-      "total_beats": 1
+      "total_beats": 4
     },
     {
       "type": "chord",
       "name": "C",
-      "octave": 4,
+      "octave": 2,
       "inversion": 0,
-      "beats": 1,
+      "beats": 4,
       "repeat": 1,
       "instrument": "grand_piano",
       "wait": 0,
       "speed": 1,
       "pattern": [
-        true
+        true,
+        false,
+        false,
+        false
       ],
-      "total_beats": 1
+      "total_beats": 4
     },
     {
       "type": "chord",
       "name": "F#m",
-      "octave": 4,
+      "octave": 2,
       "inversion": 0,
-      "beats": 1,
+      "beats": 4,
       "repeat": 1,
       "instrument": "grand_piano",
       "wait": 0,
       "speed": 1,
       "pattern": [
-        true
+        true,
+        false,
+        false,
+        false
       ],
-      "total_beats": 1
+      "total_beats": 4
     },
     {
       "type": "chord",
       "name": "C7",
       "octave": 4,
       "inversion": 0,
-      "beats": 1,
+      "beats": 4,
       "repeat": 1,
       "instrument": "grand_piano",
       "wait": 0,
       "speed": 1,
       "pattern": [
-        true
+        true,
+        false,
+        false,
+        false
       ],
-      "total_beats": 1
+      "total_beats": 4
     },
     {
       "type": "chord",
       "name": "F#m",
-      "octave": 4,
+      "octave": 2,
       "inversion": 0,
-      "beats": 1,
+      "beats": 8,
       "repeat": 1,
       "instrument": "grand_piano",
       "wait": 0,
       "speed": 1,
       "pattern": [
-        true
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
       ],
-      "total_beats": 1
+      "total_beats": 8
     },
     {
       "type": "chord",
       "name": "C9",
       "octave": 3,
       "inversion": 0,
-      "beats": 1,
+      "beats": 8,
       "repeat": 1,
       "instrument": "grand_piano",
       "wait": 0,
       "speed": 1,
       "pattern": [
-        true
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
       ],
-      "total_beats": 1
+      "total_beats": 8
     },
     {
       "type": "chord",
       "name": "F#m",
-      "octave": 3,
+      "octave": 2,
       "inversion": 0,
-      "beats": 1,
+      "beats": 4,
       "repeat": 1,
       "instrument": "grand_piano",
       "wait": 0,
       "speed": 1,
       "pattern": [
-        true
+        true,
+        false,
+        false,
+        false
       ],
-      "total_beats": 1
+      "total_beats": 4
     },
     {
       "type": "chord",
       "name": "C9",
       "octave": 3,
       "inversion": 0,
-      "beats": 1,
+      "beats": 4,
       "repeat": 1,
       "instrument": "grand_piano",
       "wait": 0,
       "speed": 1,
       "pattern": [
-        true
+        true,
+        false,
+        false,
+        false
       ],
-      "total_beats": 1
+      "total_beats": 4
     },
     {
       "type": "chord",
       "name": "F#m",
-      "octave": 5,
+      "octave": 3,
       "inversion": 0,
-      "beats": 1,
+      "beats": 4,
       "repeat": 1,
       "instrument": "grand_piano",
       "wait": 0,
       "speed": 1,
       "pattern": [
-        true
+        true,
+        false,
+        false,
+        false
       ],
-      "total_beats": 1
+      "total_beats": 4
     }
   ],
   "timeline": [
     {
       "name": "F#m",
-      "beats": 1,
-      "start": 0.0,
-      "end": 0.534,
-      "octave": 5,
-      "octave_confidence": 1.245
-    },
-    {
-      "name": "F#m",
-      "beats": 1,
-      "start": 0.534,
-      "end": 1.068,
-      "octave": 5,
-      "octave_confidence": 1.331
-    },
-    {
-      "name": "F#m",
-      "beats": 1,
-      "start": 1.068,
-      "end": 1.602,
-      "octave": 5,
-      "octave_confidence": 1.363
-    },
-    {
-      "name": "A",
-      "beats": 1,
-      "start": 1.602,
-      "end": 2.136,
-      "octave": 2,
-      "octave_confidence": 1.167
-    },
-    {
-      "name": "E",
-      "beats": 1,
-      "start": 2.136,
-      "end": 2.67,
-      "octave": 5,
-      "octave_confidence": 1.894
-    },
-    {
-      "name": "F#m",
-      "beats": 1,
-      "start": 2.67,
-      "end": 3.204,
-      "octave": 3,
-      "octave_confidence": 1.855
-    },
-    {
-      "name": "A",
-      "beats": 1,
-      "start": 3.204,
-      "end": 3.738,
-      "octave": 3,
-      "octave_confidence": 2.188
-    },
-    {
-      "name": "E",
-      "beats": 2,
-      "start": 3.738,
-      "end": 4.807,
-      "octave": 5,
-      "octave_confidence": 2.246
-    },
-    {
-      "name": "A",
-      "beats": 1,
-      "start": 4.807,
-      "end": 5.341,
-      "octave": 3,
-      "octave_confidence": 1.193
-    },
-    {
-      "name": "F#m",
-      "beats": 2,
-      "start": 5.341,
-      "end": 6.409,
-      "octave": 3,
-      "octave_confidence": 1.334
-    },
-    {
-      "name": "A",
-      "beats": 1,
-      "start": 6.409,
-      "end": 6.943,
-      "octave": 3,
-      "octave_confidence": 1.477
-    },
-    {
-      "name": "B",
-      "beats": 1,
-      "start": 6.943,
-      "end": 7.477,
-      "octave": 3,
-      "octave_confidence": 1.561
-    },
-    {
-      "name": "C",
-      "beats": 1,
-      "start": 7.477,
-      "end": 8.011,
-      "octave": 4,
-      "octave_confidence": 2.029
-    },
-    {
-      "name": "F#m",
-      "beats": 1,
-      "start": 8.011,
-      "end": 8.545,
-      "octave": 4,
-      "octave_confidence": 1.328
-    },
-    {
-      "name": "F#m",
-      "beats": 1,
-      "start": 8.545,
-      "end": 9.079,
-      "octave": 3,
-      "octave_confidence": 2.29
-    },
-    {
-      "name": "A",
-      "beats": 1,
-      "start": 9.079,
-      "end": 9.613,
-      "octave": 3,
-      "octave_confidence": 1.479
-    },
-    {
-      "name": "E",
-      "beats": 1,
-      "start": 9.613,
-      "end": 10.147,
-      "octave": 5,
-      "octave_confidence": 1.661
-    },
-    {
-      "name": "F#m",
-      "beats": 1,
-      "start": 10.147,
-      "end": 10.681,
-      "octave": 3,
-      "octave_confidence": 1.196
-    },
-    {
-      "name": "A",
-      "beats": 1,
-      "start": 10.681,
-      "end": 11.215,
-      "octave": 5,
-      "octave_confidence": 1.023
-    },
-    {
-      "name": "E",
-      "beats": 2,
-      "start": 11.215,
-      "end": 12.283,
-      "octave": 5,
-      "octave_confidence": 1.922
-    },
-    {
-      "name": "A",
-      "beats": 1,
-      "start": 12.283,
-      "end": 12.817,
-      "octave": 5,
-      "octave_confidence": 1.298
-    },
-    {
-      "name": "F#m",
-      "beats": 2,
-      "start": 12.817,
-      "end": 13.886,
-      "octave": 3,
-      "octave_confidence": 2.195
-    },
-    {
-      "name": "A",
-      "beats": 1,
-      "start": 13.886,
-      "end": 14.42,
-      "octave": 3,
-      "octave_confidence": 1.591
-    },
-    {
-      "name": "B",
-      "beats": 1,
-      "start": 14.42,
-      "end": 14.954,
-      "octave": 3,
-      "octave_confidence": 1.173
-    },
-    {
-      "name": "C",
-      "beats": 1,
-      "start": 14.954,
-      "end": 15.488,
-      "octave": 4,
-      "octave_confidence": 2.05
-    },
-    {
-      "name": "F#m",
-      "beats": 1,
-      "start": 15.488,
-      "end": 16.022,
-      "octave": 4,
-      "octave_confidence": 1.785
-    },
-    {
-      "name": "C7",
-      "beats": 1,
-      "start": 16.022,
-      "end": 16.556,
-      "octave": 4,
-      "octave_confidence": 1.107
-    },
-    {
-      "name": "F#m",
-      "beats": 1,
-      "start": 16.556,
-      "end": 17.09,
-      "octave": 4,
-      "octave_confidence": 1.824
-    },
-    {
-      "name": "C9",
-      "beats": 1,
-      "start": 17.09,
-      "end": 17.624,
-      "octave": 3,
-      "octave_confidence": 1.079
-    },
-    {
-      "name": "F#m",
-      "beats": 1,
-      "start": 17.624,
-      "end": 18.158,
+      "beats": 4,
+      "repeat": 3,
+      "total_beats": 12,
+      "start": 1.393,
+      "end": 7.825,
+      "start_beat": 0,
+      "end_beat": 12,
       "octave": 3,
       "octave_confidence": 1.048
     },
     {
-      "name": "C9",
-      "beats": 1,
-      "start": 18.158,
-      "end": 18.692,
+      "name": "A",
+      "beats": 4,
+      "repeat": 1,
+      "total_beats": 4,
+      "start": 7.825,
+      "end": 9.892,
+      "start_beat": 12,
+      "end_beat": 16,
       "octave": 3,
-      "octave_confidence": 1.24
+      "octave_confidence": 1.456
+    },
+    {
+      "name": "E",
+      "beats": 4,
+      "repeat": 1,
+      "total_beats": 4,
+      "start": 9.892,
+      "end": 12.051,
+      "start_beat": 16,
+      "end_beat": 20,
+      "octave": 5,
+      "octave_confidence": 1.701
+    },
+    {
+      "name": "F#m",
+      "beats": 2,
+      "repeat": 1,
+      "total_beats": 2,
+      "start": 12.051,
+      "end": 13.096,
+      "start_beat": 20,
+      "end_beat": 22,
+      "octave": 4,
+      "octave_confidence": 1.104
+    },
+    {
+      "name": "A",
+      "beats": 4,
+      "repeat": 1,
+      "total_beats": 4,
+      "start": 13.096,
+      "end": 15.209,
+      "start_beat": 22,
+      "end_beat": 26,
+      "octave": 2,
+      "octave_confidence": 1.244
+    },
+    {
+      "name": "E",
+      "beats": 8,
+      "repeat": 1,
+      "total_beats": 8,
+      "start": 15.209,
+      "end": 19.412,
+      "start_beat": 26,
+      "end_beat": 34,
+      "octave": 2,
+      "octave_confidence": 1.289
+    },
+    {
+      "name": "A",
+      "beats": 8,
+      "repeat": 1,
+      "total_beats": 8,
+      "start": 19.412,
+      "end": 23.731,
+      "start_beat": 34,
+      "end_beat": 42,
+      "octave": 2,
+      "octave_confidence": 1.572
+    },
+    {
+      "name": "F#m",
+      "beats": 2,
+      "repeat": 1,
+      "total_beats": 2,
+      "start": 23.731,
+      "end": 24.776,
+      "start_beat": 42,
+      "end_beat": 44,
+      "octave": 2,
+      "octave_confidence": 1.585
+    },
+    {
+      "name": "A",
+      "beats": 4,
+      "repeat": 1,
+      "total_beats": 4,
+      "start": 24.776,
+      "end": 26.935,
+      "start_beat": 44,
+      "end_beat": 48,
+      "octave": 2,
+      "octave_confidence": 1.297
+    },
+    {
+      "name": "B",
+      "beats": 4,
+      "repeat": 1,
+      "total_beats": 4,
+      "start": 26.935,
+      "end": 29.048,
+      "start_beat": 48,
+      "end_beat": 52,
+      "octave": 2,
+      "octave_confidence": 1.166
+    },
+    {
+      "name": "C",
+      "beats": 2,
+      "repeat": 1,
+      "total_beats": 2,
+      "start": 29.048,
+      "end": 30.116,
+      "start_beat": 52,
+      "end_beat": 54,
+      "octave": 3,
+      "octave_confidence": 1.421
     },
     {
       "name": "F#m",
       "beats": 1,
-      "start": 18.692,
-      "end": 19.226,
-      "octave": 5,
-      "octave_confidence": 1.112
+      "repeat": 2,
+      "total_beats": 2,
+      "start": 30.116,
+      "end": 34.923,
+      "start_beat": 54,
+      "end_beat": 63,
+      "octave": 4,
+      "octave_confidence": 1.734
+    },
+    {
+      "name": "A",
+      "beats": 2,
+      "repeat": 1,
+      "total_beats": 2,
+      "start": 34.923,
+      "end": 35.968,
+      "start_beat": 63,
+      "end_beat": 65,
+      "octave": 2,
+      "octave_confidence": 1.256
+    },
+    {
+      "name": "E",
+      "beats": 8,
+      "repeat": 1,
+      "total_beats": 8,
+      "start": 35.968,
+      "end": 40.24,
+      "start_beat": 65,
+      "end_beat": 73,
+      "octave": 3,
+      "octave_confidence": 1.747
+    },
+    {
+      "name": "F#m",
+      "beats": 8,
+      "repeat": 1,
+      "total_beats": 8,
+      "start": 40.24,
+      "end": 44.582,
+      "start_beat": 73,
+      "end_beat": 81,
+      "octave": 2,
+      "octave_confidence": 1.114
+    },
+    {
+      "name": "A",
+      "beats": 2,
+      "repeat": 1,
+      "total_beats": 2,
+      "start": 44.582,
+      "end": 45.627,
+      "start_beat": 81,
+      "end_beat": 83,
+      "octave": 2,
+      "octave_confidence": 1.109
+    },
+    {
+      "name": "E",
+      "beats": 1,
+      "repeat": 1,
+      "total_beats": 1,
+      "start": 45.627,
+      "end": 46.138,
+      "start_beat": 83,
+      "end_beat": 84,
+      "octave": 4,
+      "octave_confidence": 1.661
+    },
+    {
+      "name": "A",
+      "beats": 1,
+      "repeat": 1,
+      "total_beats": 1,
+      "start": 46.138,
+      "end": 46.649,
+      "start_beat": 84,
+      "end_beat": 85,
+      "octave": 4,
+      "octave_confidence": 1.31
+    },
+    {
+      "name": "F#m",
+      "beats": 4,
+      "repeat": 1,
+      "total_beats": 4,
+      "start": 46.649,
+      "end": 48.715,
+      "start_beat": 85,
+      "end_beat": 89,
+      "octave": 4,
+      "octave_confidence": 1.67
+    },
+    {
+      "name": "A",
+      "beats": 8,
+      "repeat": 1,
+      "total_beats": 8,
+      "start": 48.715,
+      "end": 52.965,
+      "start_beat": 89,
+      "end_beat": 97,
+      "octave": 2,
+      "octave_confidence": 1.111
+    },
+    {
+      "name": "B",
+      "beats": 4,
+      "repeat": 1,
+      "total_beats": 4,
+      "start": 52.965,
+      "end": 55.263,
+      "start_beat": 97,
+      "end_beat": 101,
+      "octave": 2,
+      "octave_confidence": 1.143
+    },
+    {
+      "name": "C",
+      "beats": 4,
+      "repeat": 1,
+      "total_beats": 4,
+      "start": 55.263,
+      "end": 57.423,
+      "start_beat": 101,
+      "end_beat": 105,
+      "octave": 2,
+      "octave_confidence": 1.069
+    },
+    {
+      "name": "F#m",
+      "beats": 4,
+      "repeat": 1,
+      "total_beats": 4,
+      "start": 57.423,
+      "end": 59.536,
+      "start_beat": 105,
+      "end_beat": 109,
+      "octave": 2,
+      "octave_confidence": 1.108
+    },
+    {
+      "name": "C7",
+      "beats": 4,
+      "repeat": 1,
+      "total_beats": 4,
+      "start": 59.536,
+      "end": 61.649,
+      "start_beat": 109,
+      "end_beat": 113,
+      "octave": 4,
+      "octave_confidence": 1.715
+    },
+    {
+      "name": "F#m",
+      "beats": 8,
+      "repeat": 1,
+      "total_beats": 8,
+      "start": 61.649,
+      "end": 65.991,
+      "start_beat": 113,
+      "end_beat": 121,
+      "octave": 2,
+      "octave_confidence": 1.114
+    },
+    {
+      "name": "C9",
+      "beats": 8,
+      "repeat": 1,
+      "total_beats": 8,
+      "start": 65.991,
+      "end": 70.217,
+      "start_beat": 121,
+      "end_beat": 129,
+      "octave": 3,
+      "octave_confidence": 2.69
+    },
+    {
+      "name": "F#m",
+      "beats": 4,
+      "repeat": 1,
+      "total_beats": 4,
+      "start": 70.217,
+      "end": 72.377,
+      "start_beat": 129,
+      "end_beat": 133,
+      "octave": 2,
+      "octave_confidence": 1.307
+    },
+    {
+      "name": "C9",
+      "beats": 4,
+      "repeat": 1,
+      "total_beats": 4,
+      "start": 72.377,
+      "end": 74.49,
+      "start_beat": 133,
+      "end_beat": 137,
+      "octave": 3,
+      "octave_confidence": 1.274
+    },
+    {
+      "name": "F#m",
+      "beats": 4,
+      "repeat": 1,
+      "total_beats": 4,
+      "start": 74.49,
+      "end": 76.603,
+      "start_beat": 137,
+      "end_beat": 141,
+      "octave": 3,
+      "octave_confidence": 1.378
     }
   ],
+  "audio_duration": 146.747,
+  "detected_beats": 274,
   "title": "IMMIGRANT SONG CHORDS by Led Zeppelin @ Ultimate-Guitar.Com"
 }

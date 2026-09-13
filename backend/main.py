@@ -22,11 +22,20 @@ from metronome import set_tempo, BPM, BEATS_PER_BAR
 from song_chord_importer import import_chords_from_url
 from splitter import separate_audio
 
+'''
 from song_analyzer import (
     fetch_page,
     get_page_title,
     extract_wiki_content,
     extract_chords_with_beats,
+    analyze_song,
+)
+'''
+from song_analyzer_2 import (
+    fetch_page,
+    get_page_title,
+    extract_wiki_content,
+    extract_chords,
     analyze_song,
 )
 
@@ -354,11 +363,8 @@ async def analyze_uploaded_song(
             html
         )
 
-        chord_sheet = (
-            extract_chords_with_beats(
-                content
-            )
-        )
+        chord_sheet = extract_chords(content)
+
 
         if not chord_sheet:
 
