@@ -295,6 +295,7 @@ async def analyze_uploaded_song(
         print("STEP 1: AUDIO SEPARATION")
         print("==============================")
 
+        '''
         separation = separate_audio(
             input_file,
             split_dir,
@@ -305,6 +306,9 @@ async def analyze_uploaded_song(
         guitar_file = stems.get(
             "guitar"
         )
+        '''
+
+        guitar_file = "/home/red/Documents/Projects/Jammify/backend/output/htdemucs_6s/Immigrant_Song/guitar.wav"
 
         if not guitar_file:
 
