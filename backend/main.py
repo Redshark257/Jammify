@@ -399,7 +399,6 @@ async def analyze_uploaded_song(
             "stems": {
                 "guitar": Path(guitar_file).name
             },
-,
         }
 
     except HTTPException:
