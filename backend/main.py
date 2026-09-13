@@ -300,7 +300,7 @@ async def analyze_uploaded_song(
         print("STEP 1: AUDIO SEPARATION")
         print("==============================")
 
-        '''
+        
         separation = separate_audio(
             input_file,
             split_dir,
@@ -311,8 +311,8 @@ async def analyze_uploaded_song(
         guitar_file = stems.get(
             "guitar"
         )
+        
         '''
-
         guitar_file = (
             BASE_DIR
             / "output"
@@ -320,6 +320,7 @@ async def analyze_uploaded_song(
             / "Immigrant_Song"
             / "guitar.wav"
         )
+        '''
 
         if not guitar_file:
 
