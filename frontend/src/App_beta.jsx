@@ -1,4 +1,4 @@
-// App beta jsx
+// App.jsx
 
 import { useRef, useState, useEffect } from "react";
 import {
@@ -1452,43 +1452,211 @@ const stopProgression = () => {
 // get chords from url
 
 const [songUrl, setSongUrl] = useState("");
-const [importedSong, setImportedSong] = useState(null);
-const [importing, setImporting] = useState(false);
+
+const [importingChords, setImportingChords] = useState(false);
+const [analyzingAudio, setAnalyzingAudio] = useState(false);
+
 const [importError, setImportError] = useState("");
+const [analysisJobId, setAnalysisJobId] = useState(null);
+
 
 // import song
 
 const [audioFile, setAudioFile] = useState(null);
 
 
-async function importSong() {
+async function importChordsFromUrl() {
 
     if (!songUrl.trim()) {
-        setImportError(
-            "Please enter an Ultimate Guitar URL."
-        );
+        setImportError("Please enter an Ultimate Guitar URL.");
         return;
     }
+
+    setImportingChords(true);
+    setImportError("");
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/import-song`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    url: songUrl
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.detail ||
+                "Failed to import chords."
+            );
+        }
+
+        const importedTrack = {
+            id: Date.now(),
+
+            name:
+                data.title ||
+                "Imported Song",
+
+            chords: (data.chords || []).map(chord => ({
+                type: "chord",
+
+                name: chord.name,
+
+                octave:
+                    Number(chord.octave) || 4,
+
+                inversion:
+                    Number(chord.inversion) || 0,
+
+                beats:
+                    Number(chord.beats) || 1,
+
+                repeat:
+                    Number(chord.repeat) || 1,
+
+                instrument:
+                    chord.instrument ||
+                    "grand_piano",
+
+                wait:
+                    Number(chord.wait) || 0,
+
+                speed:
+                    Number(chord.speed) || 1,
+
+                pattern:
+                    chord.pattern || [true]
+            })),
+
+            muted: false,
+            volume: 0.8,
+            loop: true,
+
+            color:
+                trackColors[
+                    tracksRef.current.length %
+                    trackColors.length
+                ]
+        };
+
+        setTracks(prev => [
+            ...prev,
+            importedTrack
+        ]);
+
+        setTrackPlayheads(prev => ({
+            ...prev,
+            [importedTrack.id]: 0
+        }));
+
+        setSelectedTrack(importedTrack.id);
+
+        if (data.bpm) {
+            setBpm(
+                Math.min(
+                    240,
+                    Math.max(
+                        40,
+                        Math.round(Number(data.bpm))
+                    )
+                )
+            );
+        }
+
+        console.log(
+            "Chords imported:",
+            data
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+        setImportError(
+            error.message ||
+            "Failed to import chords."
+        );
+
+    } finally {
+
+        setImportingChords(false);
+
+    }
+}
+
+
+
+
+function updateTrackFromAudioAnalysis(trackId, data) {
+
+    setTracks(prev =>
+        prev.map(track => {
+
+            if (track.id !== trackId) {
+                return track;
+            }
+
+            return {
+                ...track,
+
+                chords: track.chords.map((chord, index) => {
+
+                    const analyzed =
+                        data.chords?.[index];
+
+                    if (!analyzed) {
+                        return chord;
+                    }
+
+                    return {
+                        ...chord,
+
+                        octave:
+                            analyzed.octave ??
+                            chord.octave,
+
+                        repeat:
+                            analyzed.repeat ??
+                            chord.repeat
+                    };
+
+                })
+            };
+
+        })
+    );
+}
+
+
+async function analyzeAudio() {
 
     if (!audioFile) {
+        setImportError("Please select a WAV file.");
+        return;
+    }
+
+    if (!selectedTrack) {
         setImportError(
-            "Please select a WAV file."
+            "Please import and select a track first."
         );
         return;
     }
 
-    setImporting(true);
+    setAnalyzingAudio(true);
     setImportError("");
-    setImportedSong(null);
 
     try {
 
         const formData = new FormData();
-
-        formData.append(
-            "tabs_url",
-            songUrl
-        );
 
         formData.append(
             "audio_file",
@@ -1496,7 +1664,7 @@ async function importSong() {
         );
 
         const response = await fetch(
-            `${API_URL}/analyze-song`,
+            `${API_URL}/analyze-audio`,
             {
                 method: "POST",
                 body: formData
@@ -1506,167 +1674,102 @@ async function importSong() {
         const data = await response.json();
 
         if (!response.ok) {
-
             throw new Error(
                 data.detail ||
-                data.error ||
-                "Failed to analyze song."
+                "Failed to start audio analysis."
             );
-
         }
 
-        console.log(
-            "Song analysis:",
-            data
+        const jobId = data.job_id;
+
+        setAnalysisJobId(jobId);
+
+        await pollAnalysisJob(
+            jobId,
+            selectedTrack
         );
-
-        setImportedSong(data);
-
-        // ------------------------------------------------
-        // Create Jammify track from analyzed chords
-        // ------------------------------------------------
-
-        const importedTrack = {
-
-            id: Date.now(),
-
-            name:
-                data.title ||
-                "Imported Song",
-
-            chords:
-                (data.chords || []).map(
-                    chord => ({
-
-                        type: "chord",
-
-                        name: chord.name,
-
-                        octave:
-                            Number(
-                                chord.octave
-                            ) || 4,
-
-                        inversion:
-                            Number(
-                                chord.inversion
-                            ) || 0,
-
-                        beats:
-                            Number(
-                                chord.beats
-                            ) || 1,
-
-                        repeat:
-                            Number(
-                                chord.repeat
-                            ) || 1,
-
-                        instrument:
-                            chord.instrument ||
-                            "grand_piano",
-
-                        wait:
-                            Number(
-                                chord.wait
-                            ) || 0,
-
-                        speed:
-                            Number(
-                                chord.speed
-                            ) || 1,
-
-                        pattern:
-                            chord.pattern ||
-                            [true]
-
-                    })
-                ),
-
-            muted: false,
-
-            volume: 0.8,
-
-            loop: true,
-
-            color:
-                trackColors[
-                    tracksRef.current.length %
-                    trackColors.length
-                ]
-
-        };
-
-        // ------------------------------------------------
-        // Add track
-        // ------------------------------------------------
-
-        setTracks(prev => [
-            ...prev,
-            importedTrack
-        ]);
-
-        // ------------------------------------------------
-        // Initialize playhead
-        // ------------------------------------------------
-
-        setTrackPlayheads(prev => ({
-            ...prev,
-            [importedTrack.id]: 0
-        }));
-
-        // ------------------------------------------------
-        // Select track
-        // ------------------------------------------------
-
-        setSelectedTrack(
-            importedTrack.id
-        );
-
-        // ------------------------------------------------
-        // Use detected BPM
-        // ------------------------------------------------
-
-        if (data.bpm) {
-
-            const detectedBpm = Math.min(
-                240,
-                Math.max(
-                    40,
-                    Math.round(
-                        Number(data.bpm)
-                    )
-                )
-            );
-
-            setBpm(
-                detectedBpm
-            );
-
-        }
 
     } catch (error) {
 
-        console.error(
-            error
-        );
+        console.error(error);
 
         setImportError(
             error.message ||
-            "Failed to analyze song."
+            "Failed to analyze audio."
         );
 
-    } finally {
-
-        setImporting(false);
-
+        setAnalyzingAudio(false);
     }
 }
 
 
+async function pollAnalysisJob(
+    jobId,
+    trackId
+) {
+
+    while (true) {
+
+        const response = await fetch(
+            `${API_URL}/analysis-status/${jobId}`
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.detail ||
+                "Failed to check analysis status."
+            );
+        }
 
 
+        if (data.status === "completed") {
 
+            updateTrackFromAudioAnalysis(
+                trackId,
+                data.result
+            );
+
+            if (data.result?.bpm) {
+
+                setBpm(
+                    Math.min(
+                        240,
+                        Math.max(
+                            40,
+                            Math.round(
+                                Number(data.result.bpm)
+                            )
+                        )
+                    )
+                );
+
+            }
+
+            setAnalyzingAudio(false);
+
+            return;
+        }
+
+
+        if (data.status === "failed") {
+
+            throw new Error(
+                data.error ||
+                "Audio analysis failed."
+            );
+
+        }
+
+
+        // Still processing.
+        await new Promise(
+            resolve =>
+                setTimeout(resolve, 2000)
+        );
+    }
+}
 
 
 
@@ -1703,6 +1806,10 @@ async function importSong() {
         }}
     >
 
+        {/* ============================= */}
+        {/* URL IMPORT */}
+        {/* ============================= */}
+
         <TextField
             fullWidth
             size="small"
@@ -1712,8 +1819,31 @@ async function importSong() {
             onChange={(e) =>
                 setSongUrl(e.target.value)
             }
-            disabled={importing}
+            disabled={importingChords}
         />
+
+        <Button
+            variant="contained"
+            onClick={importChordsFromUrl}
+            disabled={
+                !songUrl.trim() ||
+                importingChords
+            }
+            sx={{
+                backgroundColor: colors.primary,
+                borderRadius: 3,
+                textTransform: "none"
+            }}
+        >
+            {importingChords
+                ? "Importing Chords..."
+                : "Import Chords"}
+        </Button>
+
+
+        {/* ============================= */}
+        {/* AUDIO IMPORT */}
+        {/* ============================= */}
 
         <div
             style={{
@@ -1723,12 +1853,10 @@ async function importSong() {
             }}
         >
 
-            {/* WAV file picker */}
-
             <Button
                 component="label"
                 variant="outlined"
-                disabled={importing}
+                disabled={analyzingAudio}
                 sx={{
                     borderRadius: 3,
                     textTransform: "none",
@@ -1752,16 +1880,12 @@ async function importSong() {
                         }
 
                         setAudioFile(file);
-
                         setImportError("");
 
                     }}
                 />
 
             </Button>
-
-
-            {/* Selected filename */}
 
             <div
                 style={{
@@ -1773,60 +1897,49 @@ async function importSong() {
                     whiteSpace: "nowrap"
                 }}
             >
-
                 {audioFile
                     ? audioFile.name
                     : "No WAV selected"}
-
             </div>
 
+        </div>
 
-            {/* Analyze */}
 
-            <Button
-                variant="contained"
-                onClick={importSong}
-                disabled={
-                    !songUrl.trim() ||
-                    !audioFile ||
-                    importing
-                }
-                sx={{
-                    backgroundColor:
-                        colors.primary,
+        <Button
+            variant="contained"
+            onClick={analyzeAudio}
+            disabled={
+                !audioFile ||
+                !selectedTrack ||
+                analyzingAudio
+            }
+            sx={{
+                backgroundColor: colors.primary,
+                borderRadius: 3,
+                textTransform: "none"
+            }}
+        >
+            {analyzingAudio
+                ? "Analyzing Audio..."
+                : "Analyze Audio"}
+        </Button>
 
-                    borderRadius: 3,
 
-                    textTransform: "none",
+        {importError && (
 
-                    whiteSpace: "nowrap"
+            <div
+                style={{
+                    color: colors.danger,
+                    fontSize: 14
                 }}
             >
+                {importError}
+            </div>
 
-                {importing
-                    ? "Analyzing..."
-                    : "Import & Analyze"}
-
-            </Button>
-
-        </div>
+        )}
 
     </div>
 
-    {importError && (
-
-        <div
-            style={{
-                color: colors.danger,
-                fontSize: 14,
-                width: "90%",
-                maxWidth: 800
-            }}
-        >
-            {importError}
-        </div>
-
-    )}
 
 
     {importError && (
