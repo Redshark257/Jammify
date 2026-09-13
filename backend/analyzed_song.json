@@ -7,34 +7,19 @@
       "octave": 5,
       "inversion": 0,
       "beats": 1,
-      "repeat": 2,
+      "repeat": 3,
       "instrument": "grand_piano",
       "wait": 0,
       "speed": 1,
       "pattern": [
         true
       ],
-      "total_beats": 2
-    },
-    {
-      "type": "chord",
-      "name": "F#m",
-      "octave": 2,
-      "inversion": 0,
-      "beats": 1,
-      "repeat": 1,
-      "instrument": "grand_piano",
-      "wait": 0,
-      "speed": 1,
-      "pattern": [
-        true
-      ],
-      "total_beats": 1
+      "total_beats": 3
     },
     {
       "type": "chord",
       "name": "A",
-      "octave": 3,
+      "octave": 2,
       "inversion": 0,
       "beats": 1,
       "repeat": 1,
@@ -259,7 +244,7 @@
     {
       "type": "chord",
       "name": "A",
-      "octave": 3,
+      "octave": 5,
       "inversion": 0,
       "beats": 1,
       "repeat": 1,
@@ -424,7 +409,7 @@
     {
       "type": "chord",
       "name": "F#m",
-      "octave": 4,
+      "octave": 3,
       "inversion": 0,
       "beats": 1,
       "repeat": 1,
@@ -474,7 +459,7 @@
       "start": 0.0,
       "end": 0.534,
       "octave": 5,
-      "octave_confidence": 1.265
+      "octave_confidence": 1.245
     },
     {
       "name": "F#m",
@@ -482,23 +467,23 @@
       "start": 0.534,
       "end": 1.068,
       "octave": 5,
-      "octave_confidence": 1.389
+      "octave_confidence": 1.331
     },
     {
       "name": "F#m",
       "beats": 1,
       "start": 1.068,
       "end": 1.602,
-      "octave": 2,
-      "octave_confidence": 1.219
+      "octave": 5,
+      "octave_confidence": 1.363
     },
     {
       "name": "A",
       "beats": 1,
       "start": 1.602,
       "end": 2.136,
-      "octave": 3,
-      "octave_confidence": 1.565
+      "octave": 2,
+      "octave_confidence": 1.167
     },
     {
       "name": "E",
@@ -506,7 +491,7 @@
       "start": 2.136,
       "end": 2.67,
       "octave": 5,
-      "octave_confidence": 1.787
+      "octave_confidence": 1.894
     },
     {
       "name": "F#m",
@@ -514,7 +499,7 @@
       "start": 2.67,
       "end": 3.204,
       "octave": 3,
-      "octave_confidence": 1.86
+      "octave_confidence": 1.855
     },
     {
       "name": "A",
@@ -522,7 +507,7 @@
       "start": 3.204,
       "end": 3.738,
       "octave": 3,
-      "octave_confidence": 2.332
+      "octave_confidence": 2.188
     },
     {
       "name": "E",
@@ -530,7 +515,7 @@
       "start": 3.738,
       "end": 4.807,
       "octave": 5,
-      "octave_confidence": 2.366
+      "octave_confidence": 2.246
     },
     {
       "name": "A",
@@ -538,7 +523,7 @@
       "start": 4.807,
       "end": 5.341,
       "octave": 3,
-      "octave_confidence": 1.293
+      "octave_confidence": 1.193
     },
     {
       "name": "F#m",
@@ -546,7 +531,7 @@
       "start": 5.341,
       "end": 6.409,
       "octave": 3,
-      "octave_confidence": 1.361
+      "octave_confidence": 1.334
     },
     {
       "name": "A",
@@ -554,7 +539,7 @@
       "start": 6.409,
       "end": 6.943,
       "octave": 3,
-      "octave_confidence": 1.434
+      "octave_confidence": 1.477
     },
     {
       "name": "B",
@@ -562,7 +547,7 @@
       "start": 6.943,
       "end": 7.477,
       "octave": 3,
-      "octave_confidence": 1.73
+      "octave_confidence": 1.561
     },
     {
       "name": "C",
@@ -570,7 +555,7 @@
       "start": 7.477,
       "end": 8.011,
       "octave": 4,
-      "octave_confidence": 1.518
+      "octave_confidence": 2.029
     },
     {
       "name": "F#m",
@@ -578,7 +563,7 @@
       "start": 8.011,
       "end": 8.545,
       "octave": 4,
-      "octave_confidence": 1.319
+      "octave_confidence": 1.328
     },
     {
       "name": "F#m",
@@ -586,7 +571,7 @@
       "start": 8.545,
       "end": 9.079,
       "octave": 3,
-      "octave_confidence": 2.287
+      "octave_confidence": 2.29
     },
     {
       "name": "A",
@@ -594,7 +579,7 @@
       "start": 9.079,
       "end": 9.613,
       "octave": 3,
-      "octave_confidence": 1.53
+      "octave_confidence": 1.479
     },
     {
       "name": "E",
@@ -602,7 +587,7 @@
       "start": 9.613,
       "end": 10.147,
       "octave": 5,
-      "octave_confidence": 1.496
+      "octave_confidence": 1.661
     },
     {
       "name": "F#m",
@@ -610,15 +595,15 @@
       "start": 10.147,
       "end": 10.681,
       "octave": 3,
-      "octave_confidence": 1.18
+      "octave_confidence": 1.196
     },
     {
       "name": "A",
       "beats": 1,
       "start": 10.681,
       "end": 11.215,
-      "octave": 3,
-      "octave_confidence": 1.009
+      "octave": 5,
+      "octave_confidence": 1.023
     },
     {
       "name": "E",
@@ -626,7 +611,7 @@
       "start": 11.215,
       "end": 12.283,
       "octave": 5,
-      "octave_confidence": 1.757
+      "octave_confidence": 1.922
     },
     {
       "name": "A",
@@ -634,7 +619,7 @@
       "start": 12.283,
       "end": 12.817,
       "octave": 5,
-      "octave_confidence": 1.387
+      "octave_confidence": 1.298
     },
     {
       "name": "F#m",
@@ -642,7 +627,7 @@
       "start": 12.817,
       "end": 13.886,
       "octave": 3,
-      "octave_confidence": 2.169
+      "octave_confidence": 2.195
     },
     {
       "name": "A",
@@ -650,7 +635,7 @@
       "start": 13.886,
       "end": 14.42,
       "octave": 3,
-      "octave_confidence": 1.682
+      "octave_confidence": 1.591
     },
     {
       "name": "B",
@@ -658,7 +643,7 @@
       "start": 14.42,
       "end": 14.954,
       "octave": 3,
-      "octave_confidence": 1.177
+      "octave_confidence": 1.173
     },
     {
       "name": "C",
@@ -666,7 +651,7 @@
       "start": 14.954,
       "end": 15.488,
       "octave": 4,
-      "octave_confidence": 2.275
+      "octave_confidence": 2.05
     },
     {
       "name": "F#m",
@@ -674,7 +659,7 @@
       "start": 15.488,
       "end": 16.022,
       "octave": 4,
-      "octave_confidence": 1.834
+      "octave_confidence": 1.785
     },
     {
       "name": "C7",
@@ -682,7 +667,7 @@
       "start": 16.022,
       "end": 16.556,
       "octave": 4,
-      "octave_confidence": 1.114
+      "octave_confidence": 1.107
     },
     {
       "name": "F#m",
@@ -690,7 +675,7 @@
       "start": 16.556,
       "end": 17.09,
       "octave": 4,
-      "octave_confidence": 1.964
+      "octave_confidence": 1.824
     },
     {
       "name": "C9",
@@ -698,15 +683,15 @@
       "start": 17.09,
       "end": 17.624,
       "octave": 3,
-      "octave_confidence": 1.01
+      "octave_confidence": 1.079
     },
     {
       "name": "F#m",
       "beats": 1,
       "start": 17.624,
       "end": 18.158,
-      "octave": 4,
-      "octave_confidence": 1.059
+      "octave": 3,
+      "octave_confidence": 1.048
     },
     {
       "name": "C9",
@@ -714,7 +699,7 @@
       "start": 18.158,
       "end": 18.692,
       "octave": 3,
-      "octave_confidence": 1.112
+      "octave_confidence": 1.24
     },
     {
       "name": "F#m",
@@ -722,7 +707,7 @@
       "start": 18.692,
       "end": 19.226,
       "octave": 5,
-      "octave_confidence": 1.235
+      "octave_confidence": 1.112
     }
   ],
   "title": "IMMIGRANT SONG CHORDS by Led Zeppelin @ Ultimate-Guitar.Com"
