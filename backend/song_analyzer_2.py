@@ -30,7 +30,7 @@ USER_AGENT = (
 #
 # The analyzer will choose between these lengths based
 # primarily on the audio and chord changes.
-LIKELY_BEAT_LENGTHS = [1, 2, 4, 8]
+LIKELY_BEAT_LENGTHS = [1, 2, 4]
 
 # How much of a chord segment to ignore around transitions.
 # This prevents attacks/crossfades from dominating the
@@ -38,7 +38,7 @@ LIKELY_BEAT_LENGTHS = [1, 2, 4, 8]
 INNER_MARGIN = 0.15
 
 # Number of beats over which we search for a chord change.
-CHANGE_THRESHOLD = 0.18
+CHANGE_THRESHOLD = 0.12
 
 # Maximum number of beats a single chord event can occupy.
 MAX_CHORD_BEATS = 8
@@ -747,20 +747,25 @@ def estimate_chord_duration_beats(
     sr
 ):
     """
-    Determine how many beats the current chord should occupy.
+    Determine how many beats the current chord occupies.
 
-    We test:
+    The important difference from the previous implementation
+    is that we evaluate the audio one beat at a time.
 
-        1 beat
-        2 beats
-        4 beats
-        8 beats
+    This prevents a chord from accidentally absorbing multiple
+    repetitions of itself.
 
-    and choose the duration that best fits the harmonic
-    evidence.
+    Typical result:
 
-    The next chord is also considered: if the audio begins
-    matching the next chord, we stop the current chord.
+        C 4 beats
+        C 4 beats
+        C 4 beats
+        G 4 beats
+
+    rather than:
+
+        C 12 beats
+        G 4 beats
     """
 
     remaining_beats = (
@@ -772,39 +777,40 @@ def estimate_chord_duration_beats(
     if remaining_beats <= 0:
         return 1
 
-    candidates = [
-        b
-        for b in LIKELY_BEAT_LENGTHS
-        if b <= remaining_beats
-    ]
+    max_duration = min(
+        MAX_CHORD_BEATS,
+        remaining_beats
+    )
 
-    if not candidates:
-        candidates = [
-            min(
-                remaining_beats,
-                MAX_CHORD_BEATS
-            )
-        ]
+    best_duration = 1
 
-    best_duration = candidates[0]
-    best_score = -999.0
+    # --------------------------------------------------------
+    # Evaluate each beat individually.
+    # --------------------------------------------------------
 
-    for duration in candidates:
+    beat_scores = []
 
-        end_beat = (
+    for offset in range(
+        max_duration
+    ):
+
+        beat_index = (
             current_beat
-            + duration
+            + offset
         )
 
-        if end_beat >= len(beat_times):
-            continue
+        if (
+            beat_index + 1
+            >= len(beat_times)
+        ):
+            break
 
         start_time = beat_times[
-            current_beat
+            beat_index
         ]
 
         end_time = beat_times[
-            end_beat
+            beat_index + 1
         ]
 
         score = chord_segment_score(
@@ -815,62 +821,149 @@ def estimate_chord_duration_beats(
             sr
         )
 
-        # ----------------------------------------------------
-        # Check whether the beginning of the next chord is
-        # actually present.
-        # ----------------------------------------------------
+        next_score = 0.0
 
-        if next_chord_name is not None:
-
-            next_start = end_time
-
-            next_end_index = min(
-                end_beat + 1,
-                len(beat_times) - 1
-            )
-
-            next_end = beat_times[
-                next_end_index
-            ]
+        if next_chord_name:
 
             next_score = chord_segment_score(
                 chroma,
                 next_chord_name,
-                next_start,
-                next_end,
+                start_time,
+                end_time,
                 sr
             )
 
-            # If the next chord strongly fits immediately after
-            # this duration, that's evidence that our boundary
-            # is sensible.
-            score += (
-                max(
-                    0.0,
-                    next_score
-                )
-                * 0.35
-            )
+        beat_scores.append({
+            "chord": score,
+            "next": next_score,
+        })
 
-        # ----------------------------------------------------
-        # Slight preference for conventional musical lengths.
-        #
-        # This prevents the algorithm from choosing 8 beats
-        # merely because averaging over a longer section happens
-        # to produce a similar chroma.
-        # ----------------------------------------------------
+    if not beat_scores:
+        return 1
 
-        duration_bonus = {
-            1: 0.00,
-            2: 0.02,
-            4: 0.05,
-            8: 0.00
-        }.get(
-            duration,
-            0.0
+    # --------------------------------------------------------
+    # Find the first beat where the NEXT chord becomes
+    # substantially more convincing than the current chord.
+    # --------------------------------------------------------
+
+    for index, scores in enumerate(
+        beat_scores
+    ):
+
+        current_score = scores["chord"]
+        next_score = scores["next"]
+
+        difference = (
+            next_score
+            - current_score
         )
 
-        score += duration_bonus
+        if (
+            next_chord_name
+            and difference > CHANGE_THRESHOLD
+            and index >= 1
+        ):
+
+            return max(
+                1,
+                index
+            )
+
+    # --------------------------------------------------------
+    # If no clear transition was detected, choose among
+    # conventional musical lengths.
+    #
+    # Prefer 4 beats when the chord remains stable.
+    # --------------------------------------------------------
+
+    candidates = [
+        length
+        for length in LIKELY_BEAT_LENGTHS
+        if length <= len(beat_scores)
+    ]
+
+    if not candidates:
+        return min(
+            1,
+            len(beat_scores)
+        )
+
+    best_score = -999.0
+
+    for duration in candidates:
+
+        selected = beat_scores[
+            :duration
+        ]
+
+        current_scores = [
+            item["chord"]
+            for item in selected
+        ]
+
+        next_scores = [
+            item["next"]
+            for item in selected
+        ]
+
+        average_current = float(
+            np.mean(
+                current_scores
+            )
+        )
+
+        average_next = float(
+            np.mean(
+                next_scores
+            )
+        )
+
+        # ----------------------------------------------------
+        # We want the current chord to remain strong across
+        # the entire candidate duration.
+        # ----------------------------------------------------
+
+        stability = (
+            1.0
+            -
+            float(
+                np.std(
+                    current_scores
+                )
+            )
+        )
+
+        score = (
+            average_current * 0.70
+            +
+            stability * 0.15
+        )
+
+        # Penalize a duration that starts looking like the
+        # next chord.
+        score -= (
+            average_next
+            * 0.35
+        )
+
+        # ----------------------------------------------------
+        # Strong preference for normal 4-beat chord events.
+        #
+        # This is especially important for Jammify because
+        # consecutive identical 4-beat events can later become:
+        #
+        #     beats = 4
+        #     repeat = 4
+        # ----------------------------------------------------
+
+        if duration == 4:
+            score += 0.10
+
+        elif duration == 2:
+            score += 0.025
+
+        elif duration == 1:
+            score -= 0.025
 
         if score > best_score:
 
@@ -878,6 +971,7 @@ def estimate_chord_duration_beats(
             best_duration = duration
 
     return best_duration
+
 
 
 def align_chords_to_beats(
@@ -983,27 +1077,23 @@ def align_chords_to_beats(
 # MERGE CONSECUTIVE SAME CHORD EVENTS
 # ============================================================
 
-def merge_consecutive_chords(
-    events
-):
+def merge_consecutive_chords(events):
     """
-    Merge adjacent identical chord events.
+    Merge consecutive identical chord occurrences.
 
     Example:
 
         C 4 beats
         C 4 beats
+        C 4 beats
+        G 4 beats
 
     becomes:
 
-        C 4 beats, repeat 2
+        C beats=4 repeat=3
+        G beats=4 repeat=1
 
-    This is exactly the Jammify meaning of repeat.
-
-    It does NOT mean:
-
-        C 1 beat, repeat 8
-
+    The beat length remains the length of ONE occurrence.
     """
 
     if not events:
@@ -1013,54 +1103,69 @@ def merge_consecutive_chords(
 
     for event in events:
 
+        current = {
+            **event,
+            "repeat": 1,
+        }
+
         if not result:
-
-            result.append({
-                **event,
-                "repeat": 1
-            })
-
+            result.append(current)
             continue
 
         previous = result[-1]
 
         same_chord = (
-            previous["name"].lower()
-            == event["name"].lower()
+            previous["name"].strip().lower()
+            ==
+            current["name"].strip().lower()
         )
 
-        # We only merge if the events are genuinely adjacent
-        # in the beat grid.
         adjacent = (
             previous["end_beat"]
-            == event["start_beat"]
+            ==
+            current["start_beat"]
         )
 
-        if same_chord and adjacent:
+        same_duration = (
+            previous["beats"]
+            ==
+            current["beats"]
+        )
+
+        if (
+            same_chord
+            and adjacent
+            and same_duration
+        ):
 
             previous["repeat"] += 1
 
             previous["end_beat"] = (
-                event["end_beat"]
+                current["end_beat"]
             )
 
             previous["end"] = (
-                event["end"]
+                current["end"]
             )
 
             previous["total_beats"] = (
                 previous["beats"]
-                * previous["repeat"]
+                *
+                previous["repeat"]
             )
 
         else:
 
-            result.append({
-                **event,
-                "repeat": 1
-            })
+            current["total_beats"] = (
+                current["beats"]
+                *
+                current["repeat"]
+            )
+
+            result.append(current)
 
     return result
+
 
 
 # ============================================================
