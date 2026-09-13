@@ -390,10 +390,16 @@ async def analyze_uploaded_song(
 
             "timeline": result["timeline"],
 
+            '''
             "stems": {
                 stem: Path(path).name
                 for stem, path in stems.items()
+            }
+            '''
+            "stems": {
+                "guitar": Path(guitar_file).name
             },
+,
         }
 
     except HTTPException:
